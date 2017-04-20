@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Incomesource;
 use App\Incomeaccumulate;
 use App\Incomesum;
+use App\File;
+use App\Overlay;
 class IncomeAnalyzeController extends Controller
 {
     /**
@@ -23,8 +25,39 @@ class IncomeAnalyzeController extends Controller
     /********************************收入来源**********************************/
     public function incomeSource()
     {
-        $incomeSources=Incomesource::Orderby('year','desc')->paginate(7);
-        return view('admin/incomeSource',['incomeSources'=>$incomeSources]);
+        //$incomeSources=Incomesource::Orderby('year','desc')->paginate(7);
+        $files=File::Orderby('overlayId','asc')->paginate(9);
+        $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
+        return view('admin/incomeSource',['files'=>$files,'overlays'=>$overlays]);
+    }
+    public function incomeSourceBoot(Request $request)
+    {
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $file=File::find($request->get('id'));
+        $file->status=1;
+        if($file->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('boot failed!');
+        }
+    }
+    
+    public function incomeSourceStop(Request $request)
+    {
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $file=File::find($request->get('id'));
+        $file->status=0;
+        if($file->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('stop failed!');
+        }
     }
     public function incomeSourceAdd(Request $request)
     {

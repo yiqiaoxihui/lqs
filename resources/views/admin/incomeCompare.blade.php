@@ -35,7 +35,7 @@
                         镜像故障
                         @endif
                     </td>
-                    <td >{{count($overlay->baseImage->name)}}</td>
+                    <td ><a href="{{url("compare/ykCompare")}}">{{$overlay->baseImage->name}}</a></td>
                     <td >
                         @if($overlay->status===1)
                         <button class="btn btn-warning"type="button" onclick="ykCompareEdit({{$overlay->id}})">停止

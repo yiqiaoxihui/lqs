@@ -3,42 +3,67 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>景区游客统计</h2>
+<h2>用户管理</h2>
     <div class="table-outline">
         <table class="table">
             <thead>
                 <tr style="height:60px;">
                     <th style="">ID</th>
-                    <th>年份</th>
-                    <th>景点</th>
-                    <th>人数</th>
+                    <th>用户名</th>
+                    <th>帐号</th>
+                    <th>类型</th>
+                    <th>状态</th>
                     <th>管理</th>
                 </tr>
             </thead>
             <tbody>
-                 @foreach ($spotsYks as $spotsYk)
+                 @foreach ($users as $user)
                 <tr>
-                    <td >{{$spotsYk->id}}</td>
-                    <td >{{$spotsYk->day}}</td>
-                    <td >{{$spotsYk->spotsname}}</td>
-                    <td >{{$spotsYk->number}}</td>
+                    <td >{{$user->id}}</td>
+                    <td >{{$user->name}}</td>
+                    <td >{{$user->email}}</td>
                     <td >
-                        <button class="btn btn-default"type="button" onclick="spotYkEdit({{$spotsYk->id}})">修改</button>
+                    @if($user->type===2)
+                        <p style="color: #5cb85c">超级管理员</p>
+                    @elseif($user->type==1)
+                        <p style="color: #5bc0de">普通管理员</p>
+                    @else
+                    
+                    @endif
+                    </td>
+                    <td >
+                    @if($user->status===1)
+                        <p style="color: #5cb85c">活动</p>
+                    @elseif($user->type==1)
+                        <p style="color: #5bc0de">禁用</p>
+                    @else
+                    
+                    @endif
+                    </td>
+                    <td >
+                    @if($user->type===2)
+                    <button class="btn btn-primary"type="button" onclick="spotYkEdit({{$user->id}})">修改</button>
+                    @else
+                    <button class="btn btn-danger"type="button" onclick="spotYkEdit({{$user->id}})">禁用</button>
+                    <button class="btn btn-primary"type="button" onclick="spotYkEdit({{$user->id}})">修改</button>
+                    @endif
+
                     </td>
                 </tr>
                 @endforeach
                 <tr class="info">
                     <td ><div style="margin-top:5px;">添加:</div></td>
-                    <td ><input type="text" class="form-control" id="spotsYkDate" placeholder="请输入日期" ></td>
-                    <td ><input type="text" class="form-control" id="spotsname" placeholder="请输入景点"></td>
-                    <td ><input type="text" class="form-control" id="number" placeholder="请输入人数"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td >
-                        <button class="btn btn-default" type="button" onclick="addone()">添加</button>
+                        <button class="btn btn-success" type="button" onclick="addone()">添加用户</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="pagination">{!! $spotsYks->render() !!}</div>
+        <div class="pagination">{!! $users->render() !!}</div>
     </div>
 
 @endsection

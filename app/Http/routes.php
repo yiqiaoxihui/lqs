@@ -91,6 +91,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'income
     //收入来源
     Route::get('incomeSource', 'IncomeAnalyzeController@incomeSource');
     Route::post('incomeSourceAdd', 'IncomeAnalyzeController@incomeSourceAdd');
+    //detect
+    Route::post('incomeSourceBoot', 'IncomeAnalyzeController@incomeSourceBoot');
+    Route::post('incomeSourceStop', 'IncomeAnalyzeController@incomeSourceStop');
     Route::get('incomeSourceEdit/{id}', 'IncomeAnalyzeController@incomeSourceEdit');
     Route::post('incomeSourceEditOk', 'IncomeAnalyzeController@incomeSourceEditOk'); 
     //收入总计

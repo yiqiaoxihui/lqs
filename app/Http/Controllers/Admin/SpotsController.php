@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Spotsyk;
+use App\User;
 class SpotsController extends Controller
 {
     /**
@@ -18,7 +19,8 @@ class SpotsController extends Controller
     public function spotsYk()
     {
         $spotsYks = Spotsyk::orderBy('day', 'desc')->paginate(6);
-        return view('admin/spotsYk',['spotsYks'=>$spotsYks]);
+        $users=User::orderBy('id','asc')->paginate(9);
+        return view('admin/spotsYk',['users'=>$users]);
     }
 
     public function spotsYkAdd(Request $request)

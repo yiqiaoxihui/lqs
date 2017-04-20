@@ -10,4 +10,8 @@ class Overlay extends Model
     public function baseImage(){
     	return $this->belongsTo('App\BaseImage','baseImageId');
     }
+    //增量镜像与监控文件一对多关系
+    public function files(){
+    	return $this->hasMany('App\File','overlayId');
+    }
 }

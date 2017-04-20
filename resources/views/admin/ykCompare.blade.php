@@ -3,7 +3,7 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>基础镜像虚拟机</h2>
+<h2>基础镜像管理</h2>
     <div class="table-outline">
 <table class="table">
             <thead>
@@ -35,7 +35,13 @@
                         镜像故障
                         @endif
                     </td>
-                    <td >{{count($baseImage->overlays)}}</td>
+                    <td >
+                        @if(count($baseImage->overlays)>0)
+                        <a href="{{url("compare/incomeCompare")}}">{{count($baseImage->overlays)}}</a>
+                        @else
+                        {{count($baseImage->overlays)}}
+                        @endif
+                    </td>
                     <td >
                         @if($baseImage->status===1)
                         <button class="btn btn-warning"type="button" onclick="ykCompareEdit({{$baseImage->id}})">停止
