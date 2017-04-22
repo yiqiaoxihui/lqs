@@ -10,7 +10,7 @@
                 <tr style="">
                     <th>所属增量镜像</th>
                     <th style="">文件路径</th>
-                    <th>文件类型</th>
+                    <th >文件类型</th>
                     <th>文件大小</th>
                     <th>哈希值</th>
                     <th>文件元信息位置</th>
@@ -27,7 +27,12 @@
                 <tr>
                     <td >{{$file->overlay->name}}</td>
                     <td >{{$file->absPath}}</td>
-                    <td >{{$file->mode}}</td>
+                    <td >
+                    @if(intval(($file->mode)/4096)===8)
+                    常规文件
+                    @else
+                    未知
+                    @endif</td>
                     <td >{{$file->size}}字节</td>
                     <td >{{$file->hash}}</td>
                     <td >
@@ -51,7 +56,7 @@
                     <td >
                     @if($file->isModified===1)
                         <p style="color: #d9534f">是</p>
-                    @else
+                        @else
                         <p style="color: #5cb85c">否</p>
                     @endif
                     </td>
@@ -66,12 +71,15 @@
                         <p style="color: #d9534f">文件丢失</p>
                     @endif
                     </td>
-                    <td >
+                    <td width="12%">
                         @if($file->status===1)
                         <button class="btn btn-warning"type="button" onclick="incomeSourceStop({{$file->id}})">停止
                         </button>
                         @elseif($file->status===0)
                         <button class="btn btn-info"type="button" onclick="incomeSourceBoot({{$file->id}})">启动</button>
+                        @endif
+                        @if($file->isModified===1)
+                        <button class="btn btn-success"type="button" onclick="incomeSourceEdit({{$file->id}})">还原</button>
                         @else
                         @endif
                         <button class="btn btn-primary"type="button" onclick="incomeSourceEdit({{$file->id}})">修改</button>

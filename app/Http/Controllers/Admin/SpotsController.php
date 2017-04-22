@@ -18,7 +18,7 @@ class SpotsController extends Controller
 /***********************************景区游客统计******************************************/
     public function spotsYk()
     {
-        $spotsYks = Spotsyk::orderBy('day', 'desc')->paginate(6);
+        //$spotsYks = Spotsyk::orderBy('day', 'desc')->paginate(6);
         $users=User::orderBy('id','asc')->paginate(9);
         return view('admin/spotsYk',['users'=>$users]);
     }
