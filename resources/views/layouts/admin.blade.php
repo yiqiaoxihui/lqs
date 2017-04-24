@@ -132,7 +132,10 @@
         </ul>
     </div>
 @endif
-    @yield('content')
+    <div class="container-fluid">
+      @yield('content')
+    </div>
+    
 
     <!-- JavaScripts -->
     <script src="{{asset('jquery/jquery.min.js')}}"></script>

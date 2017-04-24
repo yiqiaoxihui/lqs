@@ -11,6 +11,8 @@ use App\Incomeaccumulate;
 use App\Incomesum;
 use App\File;
 use App\Overlay;
+use App\Server;
+use App\BaseImage;
 class IncomeAnalyzeController extends Controller
 {
     /**
@@ -28,9 +30,20 @@ class IncomeAnalyzeController extends Controller
         //$incomeSources=Incomesource::Orderby('year','desc')->paginate(7);
         $files=File::Orderby('overlayId','asc')->paginate(9);
         $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
-        return view('admin/incomeSource',['files'=>$files,'overlays'=>$overlays]);
+        $servers=Server::select("id","name")->get();
+        return view('admin/incomeSource',['files'=>$files,'overlays'=>$overlays,'servers'=>$servers]);
     }
-    public function incomeSourceBoot(Request $request)
+    public function getBaseimageByServer(Request $request){
+        $server=Server::find($request->get('server_id'));
+        $baseimages=$server->baseImages;
+        return json_decode($baseimages);
+    }
+    public function getOverlayByBase(Request $request){
+        $baseImage=BaseImage::find($request->get('base_id'));
+        $overlays=$baseImage->overlays;
+        return json_decode($overlays);
+    }
+    public function fileStart(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
@@ -45,7 +58,7 @@ class IncomeAnalyzeController extends Controller
         }
     }
     
-    public function incomeSourceStop(Request $request)
+    public function fileStop(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
@@ -59,33 +72,33 @@ class IncomeAnalyzeController extends Controller
             return Redirect::back()->withInput()->withErrors('stop failed!');
         }
     }
-    public function incomeSourceAdd(Request $request)
+    public function fileAdd(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
-            'year' => 'required',
-            'bank' => 'required',
-            'money' => 'required',
+            'name' => 'required|max:255',
+            'absPath' => 'required|max:255',
+            'overlayId' => 'required',
         ]);
 
-        $incomeSource = new Incomesource;
-        $incomeSource->year = $request->get('year');
-        $incomeSource->bank = $request->get('bank');
-        $incomeSource->money = $request->get('money');
+        $file = new File;
+        $file->name = $request->get('name');
+        $file->absPath = $request->get('absPath');
+        $file->overlayId = $request->get('overlayId');
 
-        if ($incomeSource->save()) {
+        if ($file->save()) {
             return json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('保存失败！!!');
         }
     }
-    public function incomeSourceEdit($id)
+    public function fileEdit($id)
     {
-        $incomeSource = Incomesource::find($id);
+        $file = File::find($id);
 
-        return view('admin/incomeSourceEdit',['incomeSource'=>$incomeSource]);
+        return view('admin/fileEdit',['file'=>$file]);
     }
-    public function incomeSourceEditOk(Request $request)
+    public function fileEditOk(Request $request)
     {
         $this->validate($request, [
             'year' => 'required',
@@ -93,7 +106,7 @@ class IncomeAnalyzeController extends Controller
             'money' => 'required',
         ]);
         $info['status']=1;
-        $incomeSource = Incomesource::find($request->get('id'));
+        $incomeSource = File::find($request->get('id'));
         $incomeSource->year = $request->get('year');
         $incomeSource->bank = $request->get('bank');
         $incomeSource->money = $request->get('money');

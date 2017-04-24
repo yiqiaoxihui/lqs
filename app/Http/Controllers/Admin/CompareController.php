@@ -10,6 +10,7 @@ use App\Ykcompare;
 use App\Incomecompare;
 use App\BaseImage;
 use App\Server;
+use App\Overlay;
 //use App\Overlay;
 class CompareController extends Controller
 {
@@ -27,112 +28,170 @@ class CompareController extends Controller
     {
         //$ykcompares = Ykcompare::Orderby('year','desc')->Orderby('month','asc')->paginate(6);
         $baseImages=BaseImage::Orderby('created_at','asc')->paginate(5);
+        //echo $baseImages[0]->server->name;
         $servers=Server::Orderby('id','desc')->get();
         return view('admin/ykCompare',['baseImages'=>$baseImages,'servers'=>$servers]);
     }
-    public function ykCompareAdd(Request $request)
+    public function baseAdd(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
-            'year' => 'required',
-            'month' => 'required',
-            'number' => 'required',
+            'name' => 'required|max:255',
+            'absPath' => 'required|max:255',
         ]);
+        $baseImage = new BaseImage;
+        $baseImage->name = $request->get('name');
+        $baseImage->absPath = $request->get('absPath');
+        $baseImage->server_id = $request->get('server_id');
 
-        $ykcompare = new Ykcompare;
-        $ykcompare->year = $request->get('year');
-        $ykcompare->month = $request->get('month');
-        $ykcompare->number = $request->get('number');
-
-        if ($ykcompare->save()) {
+        if ($baseImage->save()) {
             return json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('保存失败！!!');
         }
     }
-    public function ykCompareEdit($id)
+    public function baseEdit($id)
     {
-        $ykcompare = Ykcompare::find($id);
-
-        return view('admin/ykCompareEdit',['ykcompare'=>$ykcompare]);
+        $baseImage = BaseImage::find($id);
+        $servers=Server::select('name','id')->get();
+        return view('admin/baseEdit',['baseImage'=>$baseImage,'servers'=>$servers]);
     }
 
-    public function ykCompareEditOk(Request $request)
+    public function baseEditOk(Request $request)
     {
         $this->validate($request, [
-            'year' => 'required',
-            'month' => 'required',
-            'number' => 'required',
+            'name' => 'required|max:255',
+            'absPath' => 'required|max:255',
         ]);
         $info['status']=1;
-        $ykcompare = Ykcompare::find($request->get('id'));
-        $ykcompare->year = $request->get('year');
-        $ykcompare->month = $request->get('month');
-        $ykcompare->number = $request->get('number');
+        $baseImage = BaseImage::find($request->get('id'));
+        $baseImage->name = $request->get('name');
+        $baseImage->absPath = $request->get('absPath');
+        $baseImage->server_id = $request->get('server_id');
 
-        if ($ykcompare->save()) {
+        if ($baseImage->save()) {
             return  json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('修改失败!!!');
         }
         
     }
+    public function baseDelete(Request $request){
+        $info['status']=1;
+        BaseImage::destroy($request->get('id'));
+
+        //echo $status;
+        return json_encode($info);
+    }
+    public function baseStart(Request $request){
+        $info['status']=1;
+        $baseImage=BaseImage::find($request->get('id'));
+        $baseImage->status=1;
+        if($baseImage->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
+    public function baseStop(Request $request){
+        $info['status']=1;
+        $baseImage=BaseImage::find($request->get('id'));
+        $baseImage->status=0;
+        if($baseImage->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
 /********************************收入同期比******************************************/
     public function incomeCompare()
     {
         //$incomecompares = Incomecompare::Orderby('year','desc')->Orderby('month','asc')->paginate(12);
-        $overlays=\App\Overlay::Orderby('id','asc')->paginate(5);
+        $overlays=Overlay::Orderby('id','asc')->paginate(5);
         $baseimages=\App\BaseImage::Orderby('id','desc')->get();
-        return view('admin/incomeCompare',['overlays'=>$overlays,'baseimages'=>$baseimages]);
+        $servers=Server::select('name','id')->get();
+        return view('admin/overlayImages',['overlays'=>$overlays,'baseimages'=>$baseimages,'servers'=>$servers]);
     }
-    public function incomeCompareAdd(Request $request)
+    public function getBaseimageByServer(Request $request){
+        $server=Server::find($request->get('server_id'));
+        $baseimages=$server->baseImages;
+        return json_decode($baseimages);
+    }
+    public function overlayAdd(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
-            'year' => 'required',
-            'month' => 'required',
-            'money' => 'required'
+            'name' => 'required|max:255',
+            'absPath' => 'required|max:255',
+            'baseImageId' => 'required'
         ]);
 
-        $incomecompare = new Incomecompare;
-        $incomecompare->year = $request->get('year');
-        $incomecompare->month = $request->get('month');
-        $incomecompare->money = $request->get('money');
+        $overlay = new Overlay;
+        $overlay->name = $request->get('name');
+        $overlay->absPath = $request->get('absPath');
+        $overlay->baseImageId = $request->get('baseImageId');
 
-        if ($incomecompare->save()) {
+        if ($overlay->save()) {
             return json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('保存失败！!!');
         }
     }
-    public function incomeCompareEdit($id)
+    public function overlayEdit($id)
     {
-        $incomecompare = Incomecompare::find($id);
-
-        return view('admin/incomeCompareEdit',['incomecompare'=>$incomecompare]);
+        $overlay = Overlay::find($id);
+        $servers=Server::select('name','id')->get();
+        return view('admin/overlayEdit',['overlay'=>$overlay,'servers'=>$servers]);
     }
 
-    public function incomeCompareEditOk(Request $request)
+    public function overlayEditOk(Request $request)
     {
         $this->validate($request, [
-            'year' => 'required',
-            'month' => 'required',
-            'money' => 'required',
+            'id'=>'required',
+            'name' => 'required|max:255',
+            'absPath' => 'required|max:255',
+            'baseImageId' => 'required'
         ]);
         $info['status']=1;
-        $incomecompare = Incomecompare::find($request->get('id'));
-        $incomecompare->year = $request->get('year');
-        $incomecompare->month = $request->get('month');
-        $incomecompare->money = $request->get('money');
+        $overlay = Overlay::find($request->get('id'));
+        $overlay->name = $request->get('name');
+        $overlay->absPath = $request->get('absPath');
+        $overlay->baseImageId = $request->get('baseImageId');
 
-        if ($incomecompare->save()) {
+        if ($overlay->save()) {
             return  json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('修改失败!!!');
         }
         
     }    
+    public function overlayDelete(Request $request){
+        $info['status']=1;
+        Overlay::destroy($request->get('id'));
 
+        //echo $status;
+        return json_encode($info);
+    }
+    public function overlayStart(Request $request){
+        $info['status']=1;
+        $overlay=Overlay::find($request->get('id'));
+        $overlay->status=1;
+        if($overlay->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
+    public function overlayStop(Request $request){
+        $info['status']=1;
+        $overlay=Overlay::find($request->get('id'));
+        $overlay->status=0;
+        if($overlay->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
 
 
     /**

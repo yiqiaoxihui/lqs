@@ -5,10 +5,14 @@
 @section('content')
 <div style="text-align:center;">
 
-<input type="hidden" id="yktrendid" value="{{$yktrend->id}}">
-<input type="text" name="ydate" id="ydate" class="form-control" value="{{$yktrend->ydate}}"readonly="readonly">
+<input type="hidden" id="serverid" value="{{$server->id}}">
+<input type="text" name="name" id="name" class="form-control" value="{{$server->name}}" placeholder="server name">
 <br>
-<input name="number" id="number"class="form-control" value="{{$yktrend->number}}" placeholder="">
+<input name="serverNumber" id="serverNumber"class="form-control" value="{{$server->serverNumber}}" placeholder="server id">
+<br>
+<input name="address" id="address"class="form-control" value="{{$server->address}}" placeholder="server url">
+<br>
+<input name="IP" id="IP"class="form-control" value="{{$server->IP}}" placeholder="server IP">
 <br>
 <button class="btn btn-default" onclick="editone()" >修改</button>
 </div>
@@ -20,14 +24,16 @@
 var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
     function editone(){
-        var id=document.getElementById('yktrendid').value;
-        var ydate=document.getElementById('ydate').value;
-        var number=document.getElementById('number').value;
-        console.log(id);console.log(ydate);console.log(number);
+        var id=document.getElementById('serverid').value;
+        var name=document.getElementById('name').value;
+        var address=document.getElementById('address').value;
+        var serverNumber=document.getElementById('serverNumber').value;
+        var IP=document.getElementById('IP').value;
+        console.log(id);console.log(serverNumber);
         $.ajax({
             type: 'post',
-            url : "../yktrendEditOk",
-            data : {"id":id,"ydate":ydate,"number":number},
+            url : "../serverEditOk",
+            data : {"id":id,"address":address,"serverNumber":serverNumber,"IP":IP,"name":name},
             dataType:'JSON', 
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -41,7 +47,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                }
             },
             error : function(err) {
-                alert("修改失败！");
+                alert("修改失败！！");
             }
         });
     }

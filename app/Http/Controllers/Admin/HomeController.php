@@ -29,56 +29,87 @@ class HomeController extends Controller
         //echo $servers[0]->overlays[0]->name;
         return view('admin/index',['servers'=>$servers]);
     }
-    public function addYktrend(Request $request)
+    public function addServer(Request $request)
     {
         $info['status']=1;
         $this->validate($request, [
-            'ydate' => 'required',
-            'number' => 'required',
+            'name' => 'required|max:255',
+            'serverNumber' => 'required',
+            'address' => 'required|max:255',
+            'IP' => 'required|max:15',
         ]);
 
-        $yktrend = new Yktrend;
-        $yktrend->ydate = $request->get('ydate');
-        $yktrend->number = $request->get('number');
-
-        if ($yktrend->save()) {
+        $server = new Server;
+        $server->name = $request->get('name');
+        $server->serverNumber = $request->get('serverNumber');
+        $server->address = $request->get('address');
+        $server->IP = $request->get('IP');
+        if ($server->save()) {
             return json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('保存失败！!!');
         }
     }
 
-    public function yktrendEdit($id)
+    public function serverEdit($id)
     {
         //Yktrend::findOrFail($id)->delete();
         //return  redirect('admin');
-        $yktrend = Yktrend::find($id);
-
-        return view('admin/yktrendEdit',['yktrend'=>$yktrend]);
+        //$yktrend = Yktrend::find($id);
+        $server=Server::find($id);
+        return view('admin/serverEdit',['server'=>$server]);
     }
 
-    public function yktrendEditOk(Request $request)
+    public function serverEditOk(Request $request)
     {
         //Yktrend::findOrFail($id)->delete();
         //return  redirect('admin');
         //$yktrend = Yktrend::where('id',$id)->get();
         $this->validate($request, [
-            'ydate' => 'required',
-            'number' => 'required',
+            'id' => 'required',
+            'serverNumber' => 'required',
+            'IP' => 'required',
         ]);
         $info['status']=1;
-        $yktrend = Yktrend::find($request->get('id'));
-        $yktrend->ydate = $request->get('ydate');
-        $yktrend->number = $request->get('number');
-
-        if ($yktrend->save()) {
+        $server = Server::find($request->get('id'));
+        $server->address = $request->get('address');
+        $server->IP=$request->get('IP');
+        $server->serverNumber = $request->get('serverNumber');
+        $server->name=$request->get('name');
+        if ($server->save()) {
             return  json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('修改失败!!!');
         }
         
     }
+    public function serverDelete(Request $request){
+        $info['status']=1;
+        Server::destroy($request->get('id'));
 
+        //echo $status;
+        return json_encode($info);
+    }
+    public function serverStart(Request $request){
+        $info['status']=1;
+        $server=Server::find($request->get('id'));
+        $server->status=1;
+        if($server->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
+    public function serverStop(Request $request){
+        $info['status']=1;
+        $server=Server::find($request->get('id'));
+        $server->status=0;
+        if($server->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors("server start failed!");
+        }
+    }
     /***********************************游客数量走势图******************************************/
     public function ykNumber()
     {
