@@ -71,7 +71,7 @@
                         <p style="color: #d9534f">文件丢失</p>
                     @endif
                     </td>
-                    <td width="12%">
+                    <td width="14%">
                         @if($file->status===1)
                         <button class="btn btn-warning"type="button" onclick="fileStop({{$file->id}})">停止
                         </button>
@@ -79,21 +79,23 @@
                         <button class="btn btn-info"type="button" onclick="fileStart({{$file->id}})">启动</button>
                         @endif
                         @if($file->isModified===1)
-                        <button class="btn btn-success"type="button" onclick="incomeSourceEdit({{$file->id}})">还原</button>
+                        <button class="btn btn-success"type="button" onclick="fileBack({{$file->id}})">还原</button>
                         @else
                         @endif
-                        <button class="btn btn-primary"type="button" onclick="incomeSourceEdit({{$file->id}})">修改</button>
+                        <button class="btn btn-primary"type="button" onclick="fileEdit({{$file->id}})">修改</button>
+                        <button class="btn btn-danger"type="button" onclick="fileDelete({{$file->id}})">删除
+                        </button>
                     </td>
                 </tr>
                 @endforeach
                 <tr class="info">
-                    <td ><div style="margin-top:5px;">添加:</div></td>
-                    <td ><input type="text" class="form-control" id="name" placeholder="请输入文件名"></td>
+                    
+                    <td >绝对路径</td>
                     <td ><input type="text" class="form-control" id="absPath" placeholder="请输入文件路径"></td>
                     <td >服务器</td>
                     <td >
                         <select class="form-control" id="server_select" onchange="serverChange()">
-                            <option></option>
+                            <option>-选择-</option>
                         @foreach ($servers as $server)
                             <option value="{{$server->id}}">{{$server->id}}-{{$server->name}}</option>
                         @endforeach
@@ -111,6 +113,7 @@
                         <option></option>
                         </select>
                     </td>
+                    <td ></td>
                     <td ></td>
                     <td ></td>
                     <td >
@@ -142,7 +145,7 @@
                    if(data!=null){
                         console.log("find success!");
                         //console.log(data);
-                        var insertText="";
+                        var insertText="<option>-选择-</option>";
                         for (var k = 0, length = data.length; k < length; k++) {
                             insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
                             //console.log(data[k]['name']);
@@ -178,7 +181,7 @@
                    if(data!=null){
                         console.log("find success!");
                         //console.log(data);
-                        var insertText="";
+                        var insertText="<option>-选择-</option>";
                         for (var k = 0, length = data.length; k < length; k++) {
                             insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
                             //console.log(data[k]['name']);
@@ -240,14 +243,13 @@
         });
     }
     function fileAdd(){
-        var name=document.getElementById('name').value;
         var absPath=document.getElementById('absPath').value;
         var overlayId=$('#overlay_select option:selected').val();
         console.log(overlayId);
         $.ajax({
             type: 'post',
             url : "{{url("incomeAnalyze/fileAdd")}}",
-            data : {"name":name,"absPath":absPath,"overlayId":overlayId},
+            data : {"absPath":absPath,"overlayId":overlayId},
             dataType:'JSON', 
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -264,18 +266,53 @@
         });
     }
 
-    function overlayEdit(id){
-        console.log(id);
+    function fileEdit(id){
+        //console.log(id);
         layer.open({
           type: 2,
           area: ['600px', '800px'],
           fix: false, //不固定
           maxmin: true,
-          content: 'overlayEdit/'+id,
+          content: 'fileEdit/'+id,
           cancel:function(index){
             location.reload(true);
           }
         });
 
+    }
+    function Delete(id){
+            $.ajax({
+                type: 'post',
+                url : "{{url("incomeAnalyze/fileDelete")}}",
+                data : {"id":id},
+                dataType:'JSON', 
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                success : function(data) {
+                   if(data.status==1){
+                        layer.msg("删除成功！");
+                        location.reload(true);
+                   }
+                },
+                error : function(err) {
+                    layer.msg('删除失败！');
+                }
+
+            });
+    }
+    function fileDelete(id){
+        layer.msg('确定删除？', {
+          time: 0 //不自动关闭
+          ,btn: ['删除', '取消']
+          ,yes: function(index){
+            Delete(id);
+            layer.close(index);
+            // layer.msg('删除成功！', {
+            //   icon: 6
+            //   ,btn: ['关闭']
+            // });
+          }
+        });
     }
 </script>

@@ -16,11 +16,11 @@ class SpotsController extends Controller
      * @return \Illuminate\Http\Response
      */
 /***********************************景区游客统计******************************************/
-    public function spotsYk()
+    public function userInfo()
     {
         //$spotsYks = Spotsyk::orderBy('day', 'desc')->paginate(6);
         $users=User::orderBy('id','asc')->paginate(9);
-        return view('admin/spotsYk',['users'=>$users]);
+        return view('admin/userInfo',['users'=>$users]);
     }
 
     public function spotsYkAdd(Request $request)

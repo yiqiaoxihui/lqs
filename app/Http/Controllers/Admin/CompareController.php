@@ -24,13 +24,13 @@ class CompareController extends Controller
         //
     }
     /********************************游客同期比******************************************/
-    public function ykCompare()
+    public function base()
     {
         //$ykcompares = Ykcompare::Orderby('year','desc')->Orderby('month','asc')->paginate(6);
         $baseImages=BaseImage::Orderby('created_at','asc')->paginate(5);
         //echo $baseImages[0]->server->name;
         $servers=Server::Orderby('id','desc')->get();
-        return view('admin/ykCompare',['baseImages'=>$baseImages,'servers'=>$servers]);
+        return view('admin/base',['baseImages'=>$baseImages,'servers'=>$servers]);
     }
     public function baseAdd(Request $request)
     {
@@ -104,13 +104,13 @@ class CompareController extends Controller
         }
     }
 /********************************收入同期比******************************************/
-    public function incomeCompare()
+    public function overlay()
     {
         //$incomecompares = Incomecompare::Orderby('year','desc')->Orderby('month','asc')->paginate(12);
         $overlays=Overlay::Orderby('id','asc')->paginate(5);
         $baseimages=\App\BaseImage::Orderby('id','desc')->get();
         $servers=Server::select('name','id')->get();
-        return view('admin/overlayImages',['overlays'=>$overlays,'baseimages'=>$baseimages,'servers'=>$servers]);
+        return view('admin/overlayInfo',['overlays'=>$overlays,'baseimages'=>$baseimages,'servers'=>$servers]);
     }
     public function getBaseimageByServer(Request $request){
         $server=Server::find($request->get('server_id'));

@@ -83,8 +83,8 @@
                <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-               <li><a href="{{url("compare/ykCompare")}}">原始镜像</a></li>
-               <li><a href="{{url("compare/incomeCompare")}}">增量镜像</a></li>
+               <li><a href="{{url("image/base")}}">原始镜像</a></li>
+               <li><a href="{{url("image/overlay")}}">增量镜像</a></li>
             </ul>
          </li>
          <li class="dropdown">
@@ -93,7 +93,7 @@
                <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-               <li><a href="{{url("incomeAnalyze/incomeSource")}}">文件管理</a></li>
+               <li><a href="{{url("file/fileInfo")}}">文件管理</a></li>
                <!-- <li><a href="{{url("incomeAnalyze/incomeSum")}}">总收入统计</a></li>
                <li><a href="{{url("incomeAnalyze/incomeAccumulate")}}">收入累计</a></li> -->
             </ul>
@@ -104,7 +104,7 @@
                <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-               <li><a href="{{url("spots/spotsYk")}}">用户管理</a></li>
+               <li><a href="{{url("user/userInfo")}}">用户管理</a></li>
             </ul>
          </li>
       </ul>

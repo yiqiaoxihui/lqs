@@ -25,13 +25,13 @@ class IncomeAnalyzeController extends Controller
         
     }
     /********************************收入来源**********************************/
-    public function incomeSource()
+    public function fileInfo()
     {
         //$incomeSources=Incomesource::Orderby('year','desc')->paginate(7);
         $files=File::Orderby('overlayId','asc')->paginate(9);
         $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
         $servers=Server::select("id","name")->get();
-        return view('admin/incomeSource',['files'=>$files,'overlays'=>$overlays,'servers'=>$servers]);
+        return view('admin/fileInfo',['files'=>$files,'overlays'=>$overlays,'servers'=>$servers]);
     }
     public function getBaseimageByServer(Request $request){
         $server=Server::find($request->get('server_id'));
@@ -76,13 +76,11 @@ class IncomeAnalyzeController extends Controller
     {
         $info['status']=1;
         $this->validate($request, [
-            'name' => 'required|max:255',
             'absPath' => 'required|max:255',
             'overlayId' => 'required',
         ]);
 
         $file = new File;
-        $file->name = $request->get('name');
         $file->absPath = $request->get('absPath');
         $file->overlayId = $request->get('overlayId');
 
@@ -92,26 +90,32 @@ class IncomeAnalyzeController extends Controller
             return Redirect::back()->withInput()->withErrors('保存失败！!!');
         }
     }
+    public function fileDelete(Request $request){
+        $info['status']=1;
+        File::destroy($request->get('id'));
+        return json_encode($info);
+    }
     public function fileEdit($id)
     {
         $file = File::find($id);
-
-        return view('admin/fileEdit',['file'=>$file]);
+        $servers=Server::select("id","name")->get();
+        $baseImages=baseImage::select("id","name")->get();
+        $overlays=Overlay::select("id","name")->get();
+        return view('admin/fileEdit',['file'=>$file,"servers"=>$servers]);
     }
     public function fileEditOk(Request $request)
     {
         $this->validate($request, [
-            'year' => 'required',
-            'bank' => 'required',
-            'money' => 'required',
+            'id'=>'required',
+            'absPath' => 'required|max:255',
+            'overlayId' => 'required',
         ]);
         $info['status']=1;
-        $incomeSource = File::find($request->get('id'));
-        $incomeSource->year = $request->get('year');
-        $incomeSource->bank = $request->get('bank');
-        $incomeSource->money = $request->get('money');
+        $file = File::find($request->get('id'));
+        $file->absPath = $request->get('absPath');
+        $file->overlayId = $request->get('overlayId');
 
-        if ($incomeSource->save()) {
+        if ($file->save()) {
             return  json_encode($info);
         } else {
             return Redirect::back()->withInput()->withErrors('修改失败!!!');

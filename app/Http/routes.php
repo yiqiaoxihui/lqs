@@ -76,9 +76,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'
 
 });
 //同期比
-Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'compare'], function() {  
+Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'image'], function() {  
     //游客人数同期比
-    Route::get('ykCompare', 'CompareController@ykCompare');
+    Route::get('base', 'CompareController@base');
     Route::post('baseAdd', 'CompareController@baseAdd');
     Route::get('baseEdit/{id}', 'CompareController@baseEdit');
     Route::post('baseEditOk', 'CompareController@baseEditOk'); 
@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'compar
     Route::post('baseStop', 'CompareController@baseStop'); 
     Route::post('baseDelete', 'CompareController@baseDelete'); 
     //收入同期比
-    Route::get('incomeCompare', 'CompareController@incomeCompare');
+    Route::get('overlay', 'CompareController@overlay');
     Route::post('overlayAdd', 'CompareController@overlayAdd');
     Route::get('overlayEdit/{id}', 'CompareController@overlayEdit');
     Route::post('overlayEditOk', 'CompareController@overlayEditOk');   
@@ -97,32 +97,33 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'compar
 
 });
 //收入分析
-Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'incomeAnalyze'], function() {  
+Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file'], function() {  
     //收入来源
-    Route::get('incomeSource', 'IncomeAnalyzeController@incomeSource');
-    Route::post('incomeSourceAdd', 'IncomeAnalyzeController@incomeSourceAdd');
+    Route::get('fileInfo', 'IncomeAnalyzeController@fileInfo');
+    Route::post('fileAdd', 'IncomeAnalyzeController@fileAdd');
     //detect
-    Route::post('fileBoot', 'IncomeAnalyzeController@fileBoot');
+    Route::post('fileStart', 'IncomeAnalyzeController@fileStart');
     Route::post('fileStop', 'IncomeAnalyzeController@fileStop');
     Route::get('fileEdit/{id}', 'IncomeAnalyzeController@fileEdit');
     Route::post('fileEditOk', 'IncomeAnalyzeController@fileEditOk'); 
+    Route::post('fileDelete', 'IncomeAnalyzeController@fileDelete'); 
     Route::post('getBaseimageByServer', 'IncomeAnalyzeController@getBaseimageByServer');
     Route::post('getOverlayByBase', 'IncomeAnalyzeController@getOverlayByBase');
     //收入总计
-    Route::get('incomeSum', 'IncomeAnalyzeController@incomeSum');
-    Route::post('incomeSumAdd', 'IncomeAnalyzeController@incomeSumAdd');
-    Route::get('incomeSumEdit/{id}', 'IncomeAnalyzeController@incomeSumEdit');
-    Route::post('incomeSumEditOk', 'IncomeAnalyzeController@incomeSumEditOk');     
-    //收入累计
-    Route::get('incomeAccumulate', 'IncomeAnalyzeController@incomeAccumulate');
-    Route::post('incomeAccumulateUpdate', 'IncomeAnalyzeController@incomeAccumulateUpdate');
+    // Route::get('incomeSum', 'IncomeAnalyzeController@incomeSum');
+    // Route::post('incomeSumAdd', 'IncomeAnalyzeController@incomeSumAdd');
+    // Route::get('incomeSumEdit/{id}', 'IncomeAnalyzeController@incomeSumEdit');
+    // Route::post('incomeSumEditOk', 'IncomeAnalyzeController@incomeSumEditOk');     
+    // //收入累计
+    // Route::get('incomeAccumulate', 'IncomeAnalyzeController@incomeAccumulate');
+    // Route::post('incomeAccumulateUpdate', 'IncomeAnalyzeController@incomeAccumulateUpdate');
 
 
 });
 //景点客流
-Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'spots'], function() {  
+Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'user'], function() {  
     //景点客流 统计
-    Route::get('spotsYk', 'SpotsController@spotsYk');
+    Route::get('userInfo', 'SpotsController@userInfo');
     Route::post('spotsYkAdd', 'SpotsController@spotsYkAdd');
     Route::get('spotsYkEdit/{id}', 'SpotsController@spotsYkEdit');
     Route::post('spotsYkEditOk', 'SpotsController@spotsYkEditOk'); 

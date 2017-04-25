@@ -44,11 +44,11 @@
                     <td >
                         
                     @if($server->status===1)
-                    <button type="button" class="btn btn-danger" onclick="serverStop({{$server->id}})">停止</button>
+                    <button type="button" class="btn btn-warning" onclick="serverStop({{$server->id}})">停止</button>
                     @else
                      <button type="button" class="btn btn-success" onclick="serverStart({{$server->id}})">启动</button>
                     @endif
-                        <button class="btn btn-default"type="button" onclick="serverEdit({{$server->id}})">修改
+                        <button class="btn btn-primary"type="button" onclick="serverEdit({{$server->id}})">修改
                         </button>
                         <button class="btn btn-danger"type="button" onclick="serverDelete({{$server->id}})">删除
                         </button>
