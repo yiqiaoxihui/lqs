@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Spotsyk;
 use App\User;
-class SpotsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.

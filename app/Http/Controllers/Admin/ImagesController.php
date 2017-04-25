@@ -12,7 +12,7 @@ use App\BaseImage;
 use App\Server;
 use App\Overlay;
 //use App\Overlay;
-class CompareController extends Controller
+class ImagesController extends Controller
 {
     /**
      * Display a listing of the resource.

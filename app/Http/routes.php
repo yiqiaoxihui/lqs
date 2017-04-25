@@ -31,17 +31,17 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('ykSource', 'YkController@ykSource');//游客客源地分析
     Route::post('yearOfyksource', 'YkController@yearOfyksource');//游客客源地分析
     //同期比
-    Route::get('pepCompare','CompareController@pepCompare');//游客同期比
-    Route::post('yearOfYkCompare','CompareController@yearOfYkCompare');
-    Route::get('incomeCompare','CompareController@incomeCompare');//收入同期比
-    Route::post('yearOfIncomeCompare','CompareController@yearOfIncomeCompare');//收入同期比
+    Route::get('pepCompare','ImagesController@pepCompare');//游客同期比
+    Route::post('yearOfYkCompare','ImagesController@yearOfYkCompare');
+    Route::get('incomeCompare','ImagesController@incomeCompare');//收入同期比
+    Route::post('yearOfIncomeCompare','ImagesController@yearOfIncomeCompare');//收入同期比
     //收入分析
-    Route::get('incomeSource','IncomeAnalyzeController@incomeSource');
-    Route::post('yearOfIncomeSource','IncomeAnalyzeController@yearOfIncomeSource');
-    Route::get('incomeSum','IncomeAnalyzeController@incomeSum');
-    Route::get('incomeAccumulate','IncomeAnalyzeController@incomeAccumulate');
+    Route::get('incomeSource','FilesController@incomeSource');
+    Route::post('yearOfIncomeSource','FilesController@yearOfIncomeSource');
+    Route::get('incomeSum','FilesController@incomeSum');
+    Route::get('incomeAccumulate','FilesController@incomeAccumulate');
     //景点客流
-    Route::get('spotsYk','SpotsController@spotsYk');    
+    Route::get('spotsYk','UsersController@spotsYk');    
 });
 // Route::get('home', function () {
 
@@ -78,55 +78,55 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'
 //同期比
 Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'image'], function() {  
     //游客人数同期比
-    Route::get('base', 'CompareController@base');
-    Route::post('baseAdd', 'CompareController@baseAdd');
-    Route::get('baseEdit/{id}', 'CompareController@baseEdit');
-    Route::post('baseEditOk', 'CompareController@baseEditOk'); 
-    Route::post('baseStart', 'CompareController@baseStart');
-    Route::post('baseStop', 'CompareController@baseStop'); 
-    Route::post('baseDelete', 'CompareController@baseDelete'); 
+    Route::get('base', 'ImagesController@base');
+    Route::post('baseAdd', 'ImagesController@baseAdd');
+    Route::get('baseEdit/{id}', 'ImagesController@baseEdit');
+    Route::post('baseEditOk', 'ImagesController@baseEditOk'); 
+    Route::post('baseStart', 'ImagesController@baseStart');
+    Route::post('baseStop', 'ImagesController@baseStop'); 
+    Route::post('baseDelete', 'ImagesController@baseDelete'); 
     //收入同期比
-    Route::get('overlay', 'CompareController@overlay');
-    Route::post('overlayAdd', 'CompareController@overlayAdd');
-    Route::get('overlayEdit/{id}', 'CompareController@overlayEdit');
-    Route::post('overlayEditOk', 'CompareController@overlayEditOk');   
-    Route::post('getBaseimageByServer', 'CompareController@getBaseimageByServer');   
-    Route::post('overlayStart', 'CompareController@overlayStart');
-    Route::post('overlayStop', 'CompareController@overlayStop'); 
-    Route::post('overlayDelete', 'CompareController@overlayDelete'); 
+    Route::get('overlay', 'ImagesController@overlay');
+    Route::post('overlayAdd', 'ImagesController@overlayAdd');
+    Route::get('overlayEdit/{id}', 'ImagesController@overlayEdit');
+    Route::post('overlayEditOk', 'ImagesController@overlayEditOk');   
+    Route::post('getBaseimageByServer', 'ImagesController@getBaseimageByServer');   
+    Route::post('overlayStart', 'ImagesController@overlayStart');
+    Route::post('overlayStop', 'ImagesController@overlayStop'); 
+    Route::post('overlayDelete', 'ImagesController@overlayDelete'); 
 
 });
 //收入分析
 Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file'], function() {  
     //收入来源
-    Route::get('fileInfo', 'IncomeAnalyzeController@fileInfo');
-    Route::post('fileAdd', 'IncomeAnalyzeController@fileAdd');
+    Route::get('fileInfo', 'FilesController@fileInfo');
+    Route::post('fileAdd', 'FilesController@fileAdd');
     //detect
-    Route::post('fileStart', 'IncomeAnalyzeController@fileStart');
-    Route::post('fileStop', 'IncomeAnalyzeController@fileStop');
-    Route::get('fileEdit/{id}', 'IncomeAnalyzeController@fileEdit');
-    Route::post('fileEditOk', 'IncomeAnalyzeController@fileEditOk'); 
-    Route::post('fileDelete', 'IncomeAnalyzeController@fileDelete'); 
-    Route::post('getBaseimageByServer', 'IncomeAnalyzeController@getBaseimageByServer');
-    Route::post('getOverlayByBase', 'IncomeAnalyzeController@getOverlayByBase');
+    Route::post('fileStart', 'FilesController@fileStart');
+    Route::post('fileStop', 'FilesController@fileStop');
+    Route::get('fileEdit/{id}', 'FilesController@fileEdit');
+    Route::post('fileEditOk', 'FilesController@fileEditOk'); 
+    Route::post('fileDelete', 'FilesController@fileDelete');
+    Route::post('getBaseimageByServer', 'FilesController@getBaseimageByServer');
+    Route::post('getOverlayByBase', 'FilesController@getOverlayByBase');
     //收入总计
-    // Route::get('incomeSum', 'IncomeAnalyzeController@incomeSum');
-    // Route::post('incomeSumAdd', 'IncomeAnalyzeController@incomeSumAdd');
-    // Route::get('incomeSumEdit/{id}', 'IncomeAnalyzeController@incomeSumEdit');
-    // Route::post('incomeSumEditOk', 'IncomeAnalyzeController@incomeSumEditOk');     
+    // Route::get('incomeSum', 'FilesController@incomeSum');
+    // Route::post('incomeSumAdd', 'FilesController@incomeSumAdd');
+    // Route::get('incomeSumEdit/{id}', 'FilesController@incomeSumEdit');
+    // Route::post('incomeSumEditOk', 'FilesController@incomeSumEditOk');     
     // //收入累计
-    // Route::get('incomeAccumulate', 'IncomeAnalyzeController@incomeAccumulate');
-    // Route::post('incomeAccumulateUpdate', 'IncomeAnalyzeController@incomeAccumulateUpdate');
+    // Route::get('incomeAccumulate', 'FilesController@incomeAccumulate');
+    // Route::post('incomeAccumulateUpdate', 'FilesController@incomeAccumulateUpdate');
 
 
 });
 //景点客流
 Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'user'], function() {  
     //景点客流 统计
-    Route::get('userInfo', 'SpotsController@userInfo');
-    Route::post('spotsYkAdd', 'SpotsController@spotsYkAdd');
-    Route::get('spotsYkEdit/{id}', 'SpotsController@spotsYkEdit');
-    Route::post('spotsYkEditOk', 'SpotsController@spotsYkEditOk'); 
+    Route::get('userInfo', 'UsersController@userInfo');
+    Route::post('spotsYkAdd', 'UsersController@spotsYkAdd');
+    Route::get('spotsYkEdit/{id}', 'UsersController@spotsYkEdit');
+    Route::post('spotsYkEditOk', 'UsersController@spotsYkEditOk'); 
 
 
 });

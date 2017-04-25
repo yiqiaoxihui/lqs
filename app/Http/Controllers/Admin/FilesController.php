@@ -13,7 +13,7 @@ use App\File;
 use App\Overlay;
 use App\Server;
 use App\BaseImage;
-class IncomeAnalyzeController extends Controller
+class FilesController extends Controller
 {
     /**
      * Display a listing of the resource.

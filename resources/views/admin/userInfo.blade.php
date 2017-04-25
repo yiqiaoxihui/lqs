@@ -79,7 +79,7 @@
         //console.log(year);
         $.ajax({
             type: 'post',
-            url : "{{url("spots/spotsYkAdd")}}",
+            url : "{{url("user/spotsYkAdd")}}",
             data : {"day":day,"number":number,"spotsname":spotsname},
             dataType:'JSON', 
             headers: {

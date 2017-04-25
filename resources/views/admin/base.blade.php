@@ -94,7 +94,7 @@
         console.log(server_id);
         $.ajax({
             type: 'post',
-            url : "{{url("compare/baseAdd")}}",
+            url : "{{url("image/baseAdd")}}",
             data : {"name":name,"server_id":server_id,"absPath":absPath},
             dataType:'JSON', 
             headers: {
@@ -129,7 +129,7 @@
     function Delete(id){
             $.ajax({
                 type: 'post',
-                url : "{{url("compare/baseDelete")}}",
+                url : "{{url("image/baseDelete")}}",
                 data : {"id":id},
                 dataType:'JSON', 
                 headers: {
@@ -164,7 +164,7 @@
     function baseStop(id){
         $.ajax({
             type: 'post',
-            url : "{{url("compare/baseStop")}}",
+            url : "{{url("image/baseStop")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {
@@ -185,7 +185,7 @@
     function baseStart(id){
         $.ajax({
             type: 'post',
-            url : "{{url("compare/baseStart")}}",
+            url : "{{url("image/baseStart")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {

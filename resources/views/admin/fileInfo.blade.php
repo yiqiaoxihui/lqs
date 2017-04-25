@@ -135,7 +135,7 @@
         if(server_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("incomeAnalyze/getBaseimageByServer")}}",
+                url : "{{url("file/getBaseimageByServer")}}",
                 data : {"server_id":server_id},
                 dataType:'JSON', 
                 headers: {
@@ -171,7 +171,7 @@
         if(base_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("incomeAnalyze/getOverlayByBase")}}",
+                url : "{{url("file/getOverlayByBase")}}",
                 data : {"base_id":base_id},
                 dataType:'JSON', 
                 headers: {
@@ -205,7 +205,7 @@
     function fileStart(id){
         $.ajax({
             type: 'post',
-            url : "{{url("incomeAnalyze/fileStart")}}",
+            url : "{{url("file/fileStart")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {
@@ -225,7 +225,7 @@
     function fileStop(id){
         $.ajax({
             type: 'post',
-            url : "{{url("incomeAnalyze/fileStop")}}",
+            url : "{{url("file/fileStop")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {
@@ -248,7 +248,7 @@
         console.log(overlayId);
         $.ajax({
             type: 'post',
-            url : "{{url("incomeAnalyze/fileAdd")}}",
+            url : "{{url("file/fileAdd")}}",
             data : {"absPath":absPath,"overlayId":overlayId},
             dataType:'JSON', 
             headers: {
@@ -283,7 +283,7 @@
     function Delete(id){
             $.ajax({
                 type: 'post',
-                url : "{{url("incomeAnalyze/fileDelete")}}",
+                url : "{{url("file/fileDelete")}}",
                 data : {"id":id},
                 dataType:'JSON', 
                 headers: {

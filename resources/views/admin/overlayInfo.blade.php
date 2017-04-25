@@ -92,7 +92,7 @@
         if(server_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("compare/getBaseimageByServer")}}",
+                url : "{{url("image/getBaseimageByServer")}}",
                 data : {"server_id":server_id},
                 dataType:'JSON', 
                 headers: {
@@ -136,7 +136,7 @@
         console.log(baseImageId);
         $.ajax({
             type: 'post',
-            url : "{{url("compare/overlayAdd")}}",
+            url : "{{url("image/overlayAdd")}}",
             data : {"name":name,"absPath":absPath,"baseImageId":baseImageId},
             dataType:'JSON', 
             headers: {
@@ -171,7 +171,7 @@
     function Delete(id){
             $.ajax({
                 type: 'post',
-                url : "{{url("compare/overlayDelete")}}",
+                url : "{{url("image/overlayDelete")}}",
                 data : {"id":id},
                 dataType:'JSON', 
                 headers: {
@@ -206,7 +206,7 @@
     function overlayStop(id){
         $.ajax({
             type: 'post',
-            url : "{{url("compare/overlayStop")}}",
+            url : "{{url("image/overlayStop")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {
@@ -227,7 +227,7 @@
     function overlayStart(id){
         $.ajax({
             type: 'post',
-            url : "{{url("compare/overlayStart")}}",
+            url : "{{url("image/overlayStart")}}",
             data : {"id":id},
             dataType:'JSON', 
             headers: {

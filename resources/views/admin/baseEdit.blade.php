@@ -35,7 +35,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         console.log(server_id);
         $.ajax({
             type: 'post',
-            url : "{{url("compare/baseEditOk")}}",
+            url : "{{url("image/baseEditOk")}}",
             data : {"id":id,"name":name,"absPath":absPath,"server_id":server_id},
             dataType:'JSON', 
             headers: {

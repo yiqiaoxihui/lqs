@@ -11,7 +11,6 @@
 <br>
 <span></span>
 <select class="form-control" id="server_select" onchange="serverChange()">
-    <option></option>
 @foreach ($servers as $server)
     <option value="{{$server->id}}" 
     @if($server->id===$file->overlay->baseImage->server->id)selected="selected"@endif>
@@ -42,7 +41,7 @@
 @endforeach
 </select>
 <br>
-<button class="btn btn-default" onclick="editone()" >修改</button>
+<button class="btn btn-default" onclick="filEdit()" >修改</button>
 </div>
 @endsection
 
@@ -50,7 +49,7 @@
 <script src="{{asset('layer/layer.js')}}"></script>
 <script type="text/javascript">
 var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
-    function editone(){
+    function filEdit(){
         var id=document.getElementById('fileId').value;
         var absPath=document.getElementById('absPath').value;
         var overlayId=$('#overlay_select option:selected').val();
@@ -58,7 +57,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         console.log(id);
         $.ajax({
             type: 'post',
-            url : "{{url("incomeAnalyze/fileEditOk")}}",
+            url : "{{url("file/fileEditOk")}}",
             data : {"id":id,"absPath":absPath,"overlayId":overlayId},
             dataType:'JSON', 
             headers: {
@@ -82,7 +81,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         if(server_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("incomeAnalyze/getBaseimageByServer")}}",
+                url : "{{url("file/getBaseimageByServer")}}",
                 data : {"server_id":server_id},
                 dataType:'JSON', 
                 headers: {
@@ -92,7 +91,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
                    if(data!=null){
                         console.log("find success!");
                         //console.log(data);
-                        var insertText="";
+                        var insertText="<option>-选择-</option>";
                         for (var k = 0, length = data.length; k < length; k++) {
                             insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
                             //console.log(data[k]['name']);
@@ -119,7 +118,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         if(base_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("incomeAnalyze/getOverlayByBase")}}",
+                url : "{{url("file/getOverlayByBase")}}",
                 data : {"base_id":base_id},
                 dataType:'JSON', 
                 headers: {
@@ -129,7 +128,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
                    if(data!=null){
                         console.log("find success!");
                         //console.log(data);
-                        var insertText="";
+                        var insertText="<option>-选择-</option>";
                         for (var k = 0, length = data.length; k < length; k++) {
                             insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
                             //console.log(data[k]['name']);

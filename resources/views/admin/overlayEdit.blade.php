@@ -42,7 +42,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         console.log(id);
         $.ajax({
             type: 'post',
-            url : "{{url("compare/overlayEditOk")}}",
+            url : "{{url("image/overlayEditOk")}}",
             data : {"id":id,"name":name,"absPath":absPath,"baseImageId":baseImageId},
             dataType:'JSON', 
             headers: {
@@ -66,7 +66,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
         if(server_id!=""){
             $.ajax({
                 type: 'post',
-                url : "{{url("compare/getBaseimageByServer")}}",
+                url : "{{url("image/getBaseimageByServer")}}",
                 data : {"server_id":server_id},
                 dataType:'JSON', 
                 headers: {
