@@ -122,11 +122,12 @@ class FilesController extends Controller
         }
         
     }
-    /********************************收入总计**********************************/
-    public function incomeSum()
+    /********************************fileRstore**********************************/
+    public function fileRestore()
     {
-        $incomeSums=Incomesum::Orderby('year','desc')->paginate(7);
-        return view('admin/incomeSum',['incomeSums'=>$incomeSums]);
+        //TODO
+        //$incomeSums=Incomesum::Orderby('year','desc')->paginate(7);
+        //return view('admin/fileRestore',['incomeSums'=>$incomeSums]);
     }
     public function incomeSumAdd(Request $request)
     {
@@ -174,10 +175,10 @@ class FilesController extends Controller
         }
         
     }
-    public function incomeAccumulate()
+    public function fileRestoreRecord()
     {
-        $incomeAccumulate=Incomeaccumulate::find(1);
-        return view('admin/incomeAccumulate',['incomeAccumulate'=>$incomeAccumulate]);
+        //$incomeAccumulate=Incomeaccumulate::find(1);
+        //return view('admin/incomeAccumulate',['incomeAccumulate'=>$incomeAccumulate]);
     }
     public function incomeAccumulateUpdate(Request $request)
     {

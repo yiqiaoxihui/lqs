@@ -5,23 +5,14 @@
 @section('content')
 <div style="text-align:center;">
 
-<input type="hidden" id="yktypeid" value="{{$yktype->id}}">
-<input type="text" name="year" id="year" class="form-control" value="{{$yktype->year}}"readonly="readonly">
+<input type="hidden" id="fullScanId" value="{{$fullScan->id}}">
+<input type="text" name="year" id="year" class="form-control" value="{{$fullScan->year}}"readonly="readonly">
 <br>
-<span>免票儿童</span>
-<input name="childfree" id="childfree"class="form-control" value="{{$yktype->childfree}}" placeholder="">
+<span>增量镜像</span>
+<input name="overlayId" id="overlayId"class="form-control" value="{{$fullScan->overlayId}}" placeholder="">
 <br>
-<span>儿童</span>
-<input type="text" name="child" id="child" class="form-control" value="{{$yktype->child}}">
-<br>
-<span>成人</span>
-<input name="adult" id="adult"class="form-control" value="{{$yktype->adult}}" placeholder="">
-<br>
-<span>老人</span>
-<input name="older" id="older"class="form-control" value="{{$yktype->older}}" placeholder="">
-<br>
-<span>军人</span>
-<input type="text" name="solider" id="solider" class="form-control" value="{{$yktype->solider}}">
+<span>文件路径</span>
+<input name="absPath" id="absPath"class="form-control" value="{{$fullScan->absPath}}" placeholder="">
 <br>
 <button class="btn btn-default" onclick="editone()" >修改</button>
 </div>
@@ -32,20 +23,15 @@
 <script type="text/javascript">
 var index = parent.layer.getFrameIndex(window.name); //获取父窗口索引
     function editone(){
-        var id=document.getElementById('yktypeid').value;
-        var year=document.getElementById('year').value;
-        var childfree=document.getElementById('childfree').value;
-        var child=document.getElementById('child').value;
-        var adult=document.getElementById('adult').value;
-        var older=document.getElementById('older').value;
-        var solider=document.getElementById('solider').value;
+        var id=document.getElementById('fullScanId').value;
+        var overlayId=document.getElementById('overlayId').value;
+        var absPath=document.getElementById('absPath').value;
         console.log(id);
         $.ajax({
             type: 'post',
             url : "../ykTypeEditOk",
-            data : {"id":id,"year":year,"childfree":childfree,"child":child,
-            "adult":adult,"older":older,"solider":solider},
-            dataType:'JSON', 
+            data : {"id":id,"absPath":absPath,"overlayId":overlayId},
+            dataType:'JSON',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             },

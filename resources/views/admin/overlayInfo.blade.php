@@ -15,6 +15,7 @@
                     <th>状态</th>
                     <th>服务器</th>
                     <th>原始镜像</th>
+                    <th>文件数量</th>
                     <th>管理</th>
                 </tr>
             </thead>
@@ -28,15 +29,16 @@
                     <td >{{$overlay->created_at}}</td>
                     <td >
                         @if($overlay->status===1)
-                        正常
+                        <span style="color: #5cb85c">正常</span>
                         @elseif($overlay->status===0)
-                        停止监测
+                        <span style="color: #5bc0de">停止监测</span>
                         @else
-                        镜像故障
+                        <span style="color: #d9534f">镜像故障</span>
                         @endif
                     </td>
                     <td ><a href="{{url("admin")}}">{{$overlay->baseImage->server->name}}</a></td>
                     <td ><a href="{{url("image/base")}}">{{$overlay->baseImage->name}}</a></td>
+                    <td><a href="{{url("file/fileInfo")}}">{{count($overlay->files)}}</td>
                     <td >
                         @if($overlay->status===1)
                         <button class="btn btn-warning"type="button" onclick="overlayStop({{$overlay->id}})">停止
@@ -73,6 +75,7 @@
                         <option></option>
                         </select>
                     </td>
+                    <td></td>
                     <td >
                         <button class="btn btn-success" type="button" onclick="addOverlay()">添加</button>
                     </td>

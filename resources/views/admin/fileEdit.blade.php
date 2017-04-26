@@ -9,7 +9,7 @@
 <span>绝对路径</span>
 <input id="absPath" class="form-control" value="{{$file->absPath}}" placeholder="">
 <br>
-<span></span>
+<span>服务器</span>
 <select class="form-control" id="server_select" onchange="serverChange()">
 @foreach ($servers as $server)
     <option value="{{$server->id}}" 

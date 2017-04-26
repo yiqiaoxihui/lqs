@@ -14,8 +14,8 @@
                     <th>IP</th>
                     <th>URL</th>
                     <th>监控时间</th>
-                    <th>虚拟机数量</th>
-                    <th>增量虚拟机数量</th>
+                    <th>原始镜像数量</th>
+                    <th>增量镜像数量</th>
                     <th>监控状态</th>
                     <th>管理操作</th>
                 </tr>
@@ -33,11 +33,11 @@
                     <td >{{count($server->overlays)}}</td>
                     <td>
                     @if($server->status===1)
-                    监控中
+                    <span style="color: #5cb85c">监控中</span>
                     @elseif($server->status===0)
-                    已停止
+                     <span style="color: #5bc0de">已停止</span>
                     @else
-                    故障
+                    <span style="color: #d9534f">故障</span>
                     @endif
                     </td>
 

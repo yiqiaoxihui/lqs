@@ -13,18 +13,18 @@
                     <th width="6%">文件类型</th>
                     <th width="6%">文件大小</th>
                     <th width="7%">哈希值</th>
-                    <th>文件元信息位置</th>
-                    <th>文件数据位置</th>
-                    <th>是否被篡改</th>
+                    <th width="8%">文件元信息位置</th>
+                    <th width="7%">文件数据位置</th>
+                    <th width="6%">是否被篡改</th>
                     <th>创建时间</th>
                     <th>最近修改时间</th>
-                    <th>监控状态</th>
+                    <th width="6%">监控状态</th>
                     <th>管理</th>
                 </tr>
             </thead>
             <tbody>
                  @foreach ($files as $file)
-                <tr>
+                <tr @if($file->status===-1||$file->isModified===1)style="background: #e29896;color:#ffffff"@endif>
                     <td >{{$file->overlay->name}}</td>
                     <td >{{$file->absPath}}</td>
                     <td >
@@ -78,7 +78,7 @@
                         @elseif($file->status===0)
                         <button class="btn btn-info"type="button" onclick="fileStart({{$file->id}})">启动</button>
                         @endif
-                        @if($file->isModified===1)
+                        @if($file->isModified===1||$file->status===-1)
                         <button class="btn btn-success"type="button" onclick="fileBack({{$file->id}})">还原</button>
                         @else
                         @endif

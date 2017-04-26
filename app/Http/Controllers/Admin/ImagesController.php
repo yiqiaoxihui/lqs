@@ -107,7 +107,7 @@ class ImagesController extends Controller
     public function overlay()
     {
         //$incomecompares = Incomecompare::Orderby('year','desc')->Orderby('month','asc')->paginate(12);
-        $overlays=Overlay::Orderby('id','asc')->paginate(5);
+        $overlays=Overlay::Orderby('id','asc')->paginate(9);
         $baseimages=\App\BaseImage::Orderby('id','desc')->get();
         $servers=Server::select('name','id')->get();
         return view('admin/overlayInfo',['overlays'=>$overlays,'baseimages'=>$baseimages,'servers'=>$servers]);

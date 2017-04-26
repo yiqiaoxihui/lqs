@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'yiqiaoxihui@126.com', 'name' => '领导查询系统'],
+    'from' => ['address' => 'yiqiaoxihui@126.com', 'name' => 'VM FILE DETECT SYSTEM'],
 
     /*
     |--------------------------------------------------------------------------

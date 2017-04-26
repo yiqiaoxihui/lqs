@@ -52,7 +52,6 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
         });
     }
 
-
 // $('#test').on('click', function(){
 //     parent.$('#pid').text('我被改变了');
 //     parent.layer.tips('Look here', '#pid', {time: 5000});

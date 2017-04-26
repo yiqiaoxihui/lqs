@@ -3,7 +3,7 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>基础镜像管理</h2>
+<h2>原始镜像管理</h2>
     <div class="table-outline">
 <table class="table">
             <thead>
@@ -28,11 +28,11 @@
                     <td >{{$baseImage->created_at}}</td>
                     <td >
                         @if($baseImage->status===1)
-                        正常
+                        <span style="color: #5cb85c">正常</span>
                         @elseif($baseImage->status===0)
-                        停止监测
+                        <span style="color: #5bc0de">停止监测</span>
                         @else
-                        镜像故障
+                        <span style="color: #d9534f">镜像故障</span>
                         @endif
                     </td>
                     <td >
