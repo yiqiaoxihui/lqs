@@ -94,9 +94,9 @@
             </a>
             <ul class="dropdown-menu">
                <li><a href="{{url("file/fileInfo")}}">文件管理</a></li>
-               <li><a href="{{url("file/fileRestore")}}">文件还原管理</a></li>
-               <li><a href="{{url("incomeAnalyze/incomeAccumulate")}}">文件还原记录</a></li>
-               <li><a href="{{url("incomeAnalyze/incomeAccumulate")}}">文件还原统计</a></li>
+               <li><a href="{{url("file/fileRestoreInfo")}}">文件还原管理</a></li>
+               <li><a href="{{url("file/fileRestoreRecord")}}">文件还原记录</a></li>
+               <li><a href="{{url("file/fileRestoreStatistics")}}">文件还原统计</a></li>
             </ul>
          </li>
          <li class="dropdown">

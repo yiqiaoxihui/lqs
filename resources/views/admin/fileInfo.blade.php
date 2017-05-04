@@ -17,7 +17,7 @@
                     <th width="7%">文件数据位置</th>
                     <th width="6%">是否被篡改</th>
                     <th>创建时间</th>
-                    <th>最近修改时间</th>
+                    <th>修改时间</th>
                     <th width="6%">监控状态</th>
                     <th>管理</th>
                 </tr>
@@ -72,18 +72,23 @@
                     @endif
                     </td>
                     <td width="14%">
-                        @if($file->status===1)
-                        <button class="btn btn-warning"type="button" onclick="fileStop({{$file->id}})">停止
-                        </button>
-                        @elseif($file->status===0)
-                        <button class="btn btn-info"type="button" onclick="fileStart({{$file->id}})">启动</button>
-                        @endif
-                        @if($file->isModified===1||$file->status===-1)
-                        <button class="btn btn-success"type="button" onclick="fileBack({{$file->id}})">还原</button>
+                        @if($file->restore==1)
+                            <button class="btn btn-warning"type="button" onclick="fileRestoreCancel({{$file->id}})">取消还原
+                            </button>
                         @else
+                            @if($file->status===1)
+                            <button class="btn btn-warning"type="button" onclick="fileStop({{$file->id}})">停止
+                            </button>
+                            @elseif($file->status===0)
+                            <button class="btn btn-info"type="button" onclick="fileStart({{$file->id}})">启动</button>
+                            @endif
+                            @if($file->isModified===1||$file->status===-1)
+                            <button class="btn btn-success"type="button" onclick="fileRestore({{$file->id}})">还原</button>
+                            @else
+                            @endif
+                            <button class="btn btn-primary" type="button" onclick="fileEdit({{$file->id}})">修改</button>
                         @endif
-                        <button class="btn btn-primary"type="button" onclick="fileEdit({{$file->id}})">修改</button>
-                        <button class="btn btn-danger"type="button" onclick="fileDelete({{$file->id}})">删除
+                        <button class="btn btn-danger" type="button" onclick="fileDelete({{$file->id}})">删除
                         </button>
                     </td>
                 </tr>
@@ -201,6 +206,46 @@
             console.log("not select anything!");
             $("#overlay_select").html("");
         }
+    }
+    function fileRestore(id){
+        $.ajax({
+            type: 'post',
+            url : "{{url("file/fileRestore")}}",
+            data : {"id":id},
+            dataType:'JSON', 
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
+            success : function(data) {
+               if(data.status==1){
+                    layer.msg("开始还原！");
+                    location.reload(true);
+               }
+            },
+            error : function(err) {
+                layer.msg('restore error!!!');
+            }
+        });   
+    }
+    function fileRestoreCancel(id){
+        $.ajax({
+            type: 'post',
+            url : "{{url("file/fileRestoreCancel")}}",
+            data : {"id":id},
+            dataType:'JSON', 
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
+            success : function(data) {
+               if(data.status==1){
+                    layer.msg("取消还原！");
+                    location.reload(true);
+               }
+            },
+            error : function(err) {
+                layer.msg('restore cancel error!!!');
+            }
+        });   
     }
     function fileStart(id){
         $.ajax({

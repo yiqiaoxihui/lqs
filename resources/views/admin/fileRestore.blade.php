@@ -3,42 +3,46 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>总收入统计</h2>
+<h2>文件还原管理</h2>
     <div class="table-outline">
         <table class="table">
             <thead>
                 <tr style="height:60px;">
                     <th style="">ID</th>
-                    <th>年份</th>
-                    <th>团队</th>
-                    <th>散客</th>
-                    <th>管理</th>
+                    <th>所属增量镜像</th>
+                    <th>文件绝对路径</th>
+                    <th>还原原因</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                 @foreach ($incomeSums as $incomeSum)
-                <tr>
-                    <td >{{$incomeSum->id}}</td>
-                    <td >{{$incomeSum->year}}年</td>
-                    <td >{{$incomeSum->team}}</td>
-                    <td >{{$incomeSum->individual}}</td>
-                    <td >
-                        <button class="btn btn-default"type="button" onclick="incomeSumEdit({{$incomeSum->id}})">修改</button>
-                    </td>
-                </tr>
-                @endforeach
-                <tr class="info">
-                    <td ><div style="margin-top:5px;">添加:</div></td>
-                    <td ><input type="text" class="form-control" id="year" placeholder="请输入年份" ></td>
-                    <td ><input type="text" class="form-control" id="team" placeholder="请输入团队销售额"></td>
-                    <td ><input type="text" class="form-control" id="individual" placeholder="请输入散客销售额"></td>
-                    <td >
-                        <button class="btn btn-default" type="button" onclick="addone()">添加</button>
-                    </td>
-                </tr>
+                @if(count($fileRestores)===0)
+                    <h2 style="color: #d9534f">当前无还原文件</h2>
+                @else
+                     @foreach ($fileRestores as $fileRestore)
+                        <tr>
+                            <td >{{$fileRestore->id}}</td>
+                            <td >{{$fileRestore->file->overlay->name}}</td>
+                            <td >{{$fileRestore->file->absPath}}</td>
+                            <td >
+                                @if($fileRestore->restoreReason===1)
+                                    <p style="color: #d9534f">文件篡改</p>
+                                @elseif($fileRestore->restoreReason===2)
+                                    <p style="color: #d9534f">文件丢失</p>
+                                @elseif($fileRestore->restoreReason===3)
+                                    <p style="color: #d9534f">篡改后丢失</p>
+                                @endif
+                            </td>
+                            <td >
+                                <button class="btn btn-warning"type="button" onclick="fileRestoreCancel({{$fileRestore->file->id}})">取消还原</button>
+                            </td>
+                        </tr>
+
+                    @endforeach
+                @endif
             </tbody>
         </table>
-        <div class="pagination">{!! $incomeSums->render() !!}</div>
+        <div class="pagination">{!! $fileRestores->render() !!}</div>
     </div>
 
 @endsection
@@ -46,43 +50,24 @@
 <script src="{{asset('jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
-    function addone(){
-        var year=document.getElementById('year').value;
-        var team=document.getElementById('team').value;
-        var individual=document.getElementById('individual').value;
-        console.log(year);
-        $.ajax({
-            type: 'post',
-            url : "{{url("incomeAnalyze/incomeSumAdd")}}",
-            data : {"year":year,"team":team,"individual":individual},
-            dataType:'JSON', 
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-            success : function(data) {
-               if(data.status==1){
-                    layer.msg("添加成功！");
-                    location.reload(true);
-               }
-            },
-            error : function(err) {
-                layer.msg('请按要求输入！');
-            }
-        });
-    }
-
-    function incomeSumEdit(id){
-        console.log(id);
-        layer.open({
-          type: 2,
-          area: ['400px', '600px'],
-          fix: false, //不固定
-          maxmin: true,
-          content: 'incomeSumEdit/'+id,
-          cancel:function(index){
-            location.reload(true);
-          }
-        });
-
-    }
+function fileRestoreCancel(id){
+    $.ajax({
+        type: 'post',
+        url : "{{url("file/fileRestoreCancel")}}",
+        data : {"id":id},
+        dataType:'JSON', 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        },
+        success : function(data) {
+           if(data.status==1){
+                layer.msg("取消还原！");
+                location.reload(true);
+           }
+        },
+        error : function(err) {
+            layer.msg('restore cancel error!!!');
+        }
+    });   
+}
 </script>

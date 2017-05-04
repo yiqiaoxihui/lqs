@@ -68,7 +68,7 @@ class ImagesController extends Controller
         $baseImage->name = $request->get('name');
         $baseImage->absPath = $request->get('absPath');
         $baseImage->server_id = $request->get('server_id');
-
+        $baseImage->status=0;
         if ($baseImage->save()) {
             return  json_encode($info);
         } else {

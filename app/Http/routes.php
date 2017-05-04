@@ -103,6 +103,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::get('fileInfo', 'FilesController@fileInfo');
     Route::post('fileAdd', 'FilesController@fileAdd');
     //detect
+    
+    Route::post('fileRestore', 'FilesController@fileRestore');
+    Route::post('fileRestoreCancel', 'FilesController@fileRestoreCancel');
     Route::post('fileStart', 'FilesController@fileStart');
     Route::post('fileStop', 'FilesController@fileStop');
     Route::get('fileEdit/{id}', 'FilesController@fileEdit');
@@ -111,7 +114,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::post('getBaseimageByServer', 'FilesController@getBaseimageByServer');
     Route::post('getOverlayByBase', 'FilesController@getOverlayByBase');
     //
-    // Route::get('fileRestore', 'FilesController@fileRestore');
+    Route::get('fileRestoreInfo', 'FilesController@fileRestoreInfo');
     // Route::post('incomeSumAdd', 'FilesController@incomeSumAdd');
     // Route::get('incomeSumEdit/{id}', 'FilesController@incomeSumEdit');
     // Route::post('incomeSumEditOk', 'FilesController@incomeSumEditOk');     

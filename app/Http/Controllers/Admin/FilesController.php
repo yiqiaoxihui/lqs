@@ -13,6 +13,8 @@ use App\File;
 use App\Overlay;
 use App\Server;
 use App\BaseImage;
+use App\FileRestore;
+use App\FileRestoreRecord;
 class FilesController extends Controller
 {
     /**
@@ -43,6 +45,7 @@ class FilesController extends Controller
         $overlays=$baseImage->overlays;
         return json_decode($overlays);
     }
+
     public function fileStart(Request $request)
     {
         $info['status']=1;
@@ -123,81 +126,56 @@ class FilesController extends Controller
         
     }
     /********************************fileRstore**********************************/
-    public function fileRestore()
-    {
-        //TODO
-        //$incomeSums=Incomesum::Orderby('year','desc')->paginate(7);
-        //return view('admin/fileRestore',['incomeSums'=>$incomeSums]);
+    public function fileRestoreInfo(){
+        $fileRestores=FileRestore::Orderby('created_at','desc')->paginate(9);
+        return view("admin/fileRestore",['fileRestores'=>$fileRestores]);
     }
-    public function incomeSumAdd(Request $request)
-    {
+    public function fileRestore(Request $request){
         $info['status']=1;
         $this->validate($request, [
-            'year' => 'required',
-            'team' => 'required',
-            'individual' => 'required',
+            'id' => 'required',
         ]);
-
-        $incomeSum = new Incomesum;
-        $incomeSum->year = $request->get('year');
-        $incomeSum->team = $request->get('team');
-        $incomeSum->individual = $request->get('individual');
-
-        if ($incomeSum->save()) {
-            return json_encode($info);
-        } else {
-            return Redirect::back()->withInput()->withErrors('保存失败！!!');
+        $file=File::find($request->get('id'));
+        $file->restore=1;
+        $fileRestore=new FileRestore;
+        $fileRestore->fileId=$request->get('id');
+        if($file->isModified==1){
+            $fileRestore->restoreReason=1;
         }
-    }
-    public function incomeSumEdit($id)
-    {
-        $incomeSum = Incomesum::find($id);
-
-        return view('admin/incomeSumEdit',['incomeSum'=>$incomeSum]);
-    }
-    public function incomeSumEditOk(Request $request)
-    {
-        $this->validate($request, [
-            'year' => 'required',
-            'team' => 'required',
-            'individual' => 'required',
-        ]);
-        $info['status']=1;
-        $incomeSum = Incomesum::find($request->get('id'));
-        $incomeSum->year = $request->get('year');
-        $incomeSum->team = $request->get('team');
-        $incomeSum->individual = $request->get('individual');
-
-        if ($incomeSum->save()) {
-            return  json_encode($info);
-        } else {
-            return Redirect::back()->withInput()->withErrors('修改失败!!!');
+        if($file->status==-1){
+            $fileRestore->restoreReason=2;
+        }
+        if($file->isModified==1 && $file->status==-1){
+            $fileRestore->restoreReason=3;
+        }
+        $fileRestore->restoreStatus=0;
+        if($file->save() && $fileRestore->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('fileRestore failed!');
         }
         
     }
+    public function fileRestoreCancel(Request $request){
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $file=File::find($request->get('id'));
+        $file->restore=0;
+        FileRestore::destroy($file->fileRestore->id);
+        //$fileRestore=FileRestore::where("fileId",$file->id)
+        if($file->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('fileRestoreCancel failed!');
+        }
+    }
+
     public function fileRestoreRecord()
     {
         //$incomeAccumulate=Incomeaccumulate::find(1);
         //return view('admin/incomeAccumulate',['incomeAccumulate'=>$incomeAccumulate]);
-    }
-    public function incomeAccumulateUpdate(Request $request)
-    {
-        // $this->validate($request, [
-        //     'other' => 'required',
-        //     'team' => 'required',
-        //     'individual' => 'required'
-        // ]);
-        $info['status']=1;
-        $incomeAccumulate = Incomeaccumulate::find($request->get('id'));
-        $incomeAccumulate->other = $request->get('other');
-        $incomeAccumulate->team = $request->get('team');
-        $incomeAccumulate->individual = $request->get('individual');
-
-        if ($incomeAccumulate->save()) {
-            return  json_encode($info);
-        } else {
-            return Redirect::back()->withInput()->withErrors('更新失败!!!');
-        }   
     }
     /**
      * Show the form for creating a new resource.
