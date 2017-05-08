@@ -26,6 +26,7 @@ class FilesController extends Controller
     {
         
     }
+    //var $fileRestoreRecord_count=0;
     /********************************收入来源**********************************/
     public function fileInfo()
     {
@@ -33,6 +34,7 @@ class FilesController extends Controller
         $files=File::Orderby('overlayId','asc')->paginate(9);
         $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
         $servers=Server::select("id","name")->get();
+        //$fileRestoreRecord_count=FileRestoreRecord::where('message','0')->count();
         return view('admin/fileInfo',['files'=>$files,'overlays'=>$overlays,'servers'=>$servers]);
     }
     public function getBaseimageByServer(Request $request){
@@ -142,10 +144,10 @@ class FilesController extends Controller
         if($file->isModified==1){
             $fileRestore->restoreReason=1;
         }
-        if($file->status==-1){
+        if($file->lost==1){
             $fileRestore->restoreReason=2;
         }
-        if($file->isModified==1 && $file->status==-1){
+        if($file->isModified==1 && $file->lost==1){
             $fileRestore->restoreReason=3;
         }
         $fileRestore->restoreStatus=0;
@@ -171,11 +173,26 @@ class FilesController extends Controller
             return Redirect::back()->withInput()->withErrors('fileRestoreCancel failed!');
         }
     }
-
+    public function fileReset(Request $request){
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $file=File::find($request->get('id'));
+        $file->restore=0;
+        $file->isModified=0;
+        $file->lost=0;
+        //$fileRestore=FileRestore::where("fileId",$file->id)
+        if($file->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('fileReset failed!');
+        }
+    }
     public function fileRestoreRecord()
     {
-        //$incomeAccumulate=Incomeaccumulate::find(1);
-        //return view('admin/incomeAccumulate',['incomeAccumulate'=>$incomeAccumulate]);
+        $fileRestoreRecords=fileRestoreRecord::Orderby('created_at','desc')->paginate(9);
+        return view("admin/fileRestoreRecord",['fileRestoreRecords'=>$fileRestoreRecords]);
     }
     /**
      * Show the form for creating a new resource.

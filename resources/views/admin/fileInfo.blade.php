@@ -15,7 +15,8 @@
                     <th width="7%">哈希值</th>
                     <th width="8%">文件元信息位置</th>
                     <th width="7%">文件数据位置</th>
-                    <th width="6%">是否被篡改</th>
+                    <th width="6%">文件状态</th>
+
                     <th>创建时间</th>
                     <th>修改时间</th>
                     <th width="6%">监控状态</th>
@@ -54,10 +55,16 @@
                     @endif
                     </td>
                     <td >
-                    @if($file->isModified===1)
-                        <p style="color: #d9534f">是</p>
-                        @else
-                        <p style="color: #5cb85c">否</p>
+                    @if($file->isModified===1 && $file->lost===0)
+                        <p style="color: #d9534f">被篡改</p>
+                    @elseif($file->lost===1)
+                        <p style="color: #d9534f">丢失</p>
+                    @else
+                        <p style="color: #5cb85c">正常</p>
+                    @endif
+                    @if($file->restore===-1)
+                        <p style="color: #d9534f">,还原失败</p>
+                    @else
                     @endif
                     </td>
                     <td >{{$file->createTime}}</td>
@@ -66,27 +73,28 @@
                     @if($file->status===1)
                         <p style="color: #5cb85c">监控中</p>
                     @elseif($file->status==0)
-                       <p style="color: #5bc0de">已停止</p> 
+                       <p style="color: #5bc0de">已停止</p>
                     @else
-                        <p style="color: #d9534f">文件丢失</p>
                     @endif
                     </td>
                     <td width="14%">
-                        @if($file->restore==1)
+                        @if($file->restore===1)
                             <button class="btn btn-warning"type="button" onclick="fileRestoreCancel({{$file->id}})">取消还原
                             </button>
-                        @else
+                        @elseif($file->restore===0)
+                            @if($file->isModified===1||$file->lost===1)
+                            <button class="btn btn-success"type="button" onclick="fileRestore({{$file->id}})">还原</button>
+                            @else
+                            @endif
                             @if($file->status===1)
                             <button class="btn btn-warning"type="button" onclick="fileStop({{$file->id}})">停止
                             </button>
                             @elseif($file->status===0)
                             <button class="btn btn-info"type="button" onclick="fileStart({{$file->id}})">启动</button>
                             @endif
-                            @if($file->isModified===1||$file->status===-1)
-                            <button class="btn btn-success"type="button" onclick="fileRestore({{$file->id}})">还原</button>
-                            @else
-                            @endif
                             <button class="btn btn-primary" type="button" onclick="fileEdit({{$file->id}})">修改</button>
+                        @elseif($file->restore===-1)
+                            <button class="btn btn-primary" type="button" onclick="fileReset({{$file->id}})">重置</button>
                         @endif
                         <button class="btn btn-danger" type="button" onclick="fileDelete({{$file->id}})">删除
                         </button>
@@ -135,6 +143,26 @@
 <script src="{{asset('jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
+    function fileReset(id){
+        $.ajax({
+            type: 'post',
+            url : "{{url("file/fileReset")}}",
+            data : {"id":id},
+            dataType:'JSON', 
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },
+            success : function(data) {
+               if(data.status==1){
+                    layer.msg("重置成功！");
+                    location.reload(true);
+               }
+            },
+            error : function(err) {
+                layer.msg('fileReset error!!!');
+            }
+        });  
+    }
     function serverChange(){
         var server_id=$('#server_select option:selected').val();
         if(server_id!=""){

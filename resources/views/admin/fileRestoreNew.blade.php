@@ -3,7 +3,7 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>还原文件记录</h2>
+<h2>最新还原信息</h2>
     <div class="table-outline">
         <table class="table">
             <thead>
@@ -13,7 +13,6 @@
                     <th>文件绝对路径</th>
                     <th>还原原因</th>
                     <th>还原状态</th>
-                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,9 +40,6 @@
                                     <p style="color: #d9534f">还原失败</p>
                                 @endif
                             </td>
-                            <td >
-                                <button class="btn btn-warning"type="button" onclick="fileRestoreCancel({{$fileRestoreRecord->file->id}})">删除</button>
-                            </td>
                         </tr>
 
                     @endforeach
@@ -52,35 +48,10 @@
         </table>
         <div class="pagination">{!! $fileRestoreRecords->render() !!}</div>
     </div>
-
 @endsection
 
 <script src="{{asset('jquery/jquery.min.js')}}"></script>
-
+<script src="{{asset('layer/layer.js')}}"></script>
 <script type="text/javascript">
-    function incomeAccumulateUpdate(){
-        var id=document.getElementById('id').value;
-        var team=document.getElementById('team').value;
-        var individual=document.getElementById('individual').value;
-        var other=document.getElementById('other').value;
-        console.log(team);
-        $.ajax({
-            type: 'post',
-            url : "{{url("incomeAnalyze/incomeAccumulateUpdate")}}",
-            data : {"id":id,"team":team,"other":other,"individual":individual},
-            dataType:'JSON', 
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-            success : function(data) {
-               if(data.status==1){
-                    layer.msg("更新成功！");
-                    location.reload(true);
-               }
-            },
-            error : function(err) {
-                layer.msg('请按要求输入！');
-            }
-        });
-    }
+
 </script>

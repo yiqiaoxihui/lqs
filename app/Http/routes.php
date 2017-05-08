@@ -21,28 +21,11 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
-Route::get('/', 'YkController@home');
+Route::get('/', 'IndexController@home');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('home', 'YkController@index');//
-    Route::get('yktrend', 'YkController@index');//
-    Route::get('ykNumber', 'YkController@ykNumber');//
-    Route::get('ykType', 'YkController@ykType');//
-    Route::post('yearOfyktype', 'YkController@yearOfyktype');//
-    Route::get('ykSource', 'YkController@ykSource');//
-    Route::post('yearOfyksource', 'YkController@yearOfyksource');//
-    //
-    Route::get('pepCompare','ImagesController@pepCompare');//
-    Route::post('yearOfYkCompare','ImagesController@yearOfYkCompare');
-    Route::get('incomeCompare','ImagesController@incomeCompare');//
-    Route::post('yearOfIncomeCompare','ImagesController@yearOfIncomeCompare');//
-    //
-    Route::get('incomeSource','FilesController@incomeSource');
-    Route::post('yearOfIncomeSource','FilesController@yearOfIncomeSource');
-    Route::get('incomeSum','FilesController@incomeSum');
-    Route::get('incomeAccumulate','FilesController@incomeAccumulate');
-    //
-    Route::get('spotsYk','UsersController@spotsYk');    
+    Route::get('home', 'IndexController@index');//
+   
 });
 // Route::get('home', function () {
 
@@ -50,7 +33,9 @@ Route::group(['middleware' => 'auth'], function() {
 // });
 
 
-
+Route::group(['middleware' => 'auth','namespace' => 'Admin'], function() {  
+       
+});
 Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'], function() {  
     Route::get('/', 'HomeController@index');
     Route::post('addServer', 'HomeController@addServer');
@@ -59,7 +44,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'
     Route::post('serverDelete', 'HomeController@serverDelete');
     Route::post('serverStop', 'HomeController@serverStop');
     Route::post('serverStart', 'HomeController@serverStart');
-  
+    Route::get('fileRestoreNew', 'HomeController@fileRestoreNew'); 
     // Route::get('ykNumber', 'HomeController@ykNumber');
     // Route::post('ykNumberAdd', 'HomeController@ykNumberAdd');
     // Route::get('ykNumberEdit/{id}', 'HomeController@ykNumberEdit');
@@ -115,6 +100,10 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::post('getOverlayByBase', 'FilesController@getOverlayByBase');
     //
     Route::get('fileRestoreInfo', 'FilesController@fileRestoreInfo');
+    Route::post('fileReset', 'FilesController@fileReset');
+    Route::get('fileRestoreRecord', 'FilesController@fileRestoreRecord');
+    //Route::get('fileRestoreNew', 'FilesController@fileRestoreNew');
+    
     // Route::post('incomeSumAdd', 'FilesController@incomeSumAdd');
     // Route::get('incomeSumEdit/{id}', 'FilesController@incomeSumEdit');
     // Route::post('incomeSumEditOk', 'FilesController@incomeSumEditOk');     

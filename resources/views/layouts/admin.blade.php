@@ -55,7 +55,20 @@
           margin: 5px;
           font-size: 16px;
         }
-
+        .notice {
+            width:18px;
+            height:18px;
+            line-height:20px;
+            font-size:10px;
+            font-weight: bold;
+            color:#fff;
+            text-align:center;
+            background-color:#f00;
+            border-radius:50%;
+            position:absolute;
+            right:5px;
+            top:5px;
+        }
     </style>
 </head>
 <body id="app-layout">
@@ -114,12 +127,24 @@
             <li><a href="{{ url('/auth/login') }}">Login</a></li>
             <li><a href="{{ url('/auth/register') }}">Register</a></li>
           @else
+            <li>
+              <a href="javascript:fileRestoreNew()">
+              <span class="glyphicon glyphicon-bell"></span>
+              <?php $file_count=session()->get('fileRestoreRecord_count'); ?>
+              @if($file_count>0)
+                <div class="notice"><?php echo session()->get('fileRestoreRecord_count'); ?></div>
+              @else
+              @endif
+              </a>
+            </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+
               </ul>
             </li>
+
           @endif
         </ul>
    </div>
@@ -149,31 +174,19 @@
 </body>
 </html>
 <script type="text/javascript">
-/*********************近七日游客走势图**************************/
-$('#datetimepicker').datetimepicker({
-    format: 'yyyy-mm-dd',
-    minView:'month',
-    todayBtn: true,
-    autoclose: true
-});
-$('#ydate').datetimepicker({
-    format: 'yyyy-mm-dd',
-    minView:'month',
-    autoclose: true
-});
-/*********************游客数量走势图**************************/
-$('#ykNumberDate').datetimepicker({
-    format: 'yyyy-mm-dd',
-    minView:'month',
-    todayBtn: true,
-    autoclose: true
-});
-/*********************景区游客**************************/
-$('#spotsYkDate').datetimepicker({
-    format: 'yyyy-mm-dd',
-    minView:'month',
-    todayBtn: true,
-    autoclose: true
-});
+function fileRestoreNew(){
+  console.log("test!");
+  //console.log(id);
+  layer.open({
+    type: 2,
+    area: ['80%', '800px'],
+    fix: false, //不固定
+    maxmin: true,
+    content: '{{url("admin/fileRestoreNew")}}',
+    cancel:function(index){
+      location.reload(true);
+    }
+  });
+}
 
 </script>

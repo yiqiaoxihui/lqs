@@ -14,4 +14,8 @@ class File extends Model
     public function fileRestore(){
     	return $this->hasOne('App\FileRestore','fileId');
     }
+    /*与文件还原记录一对多关系*/
+    public function fileRestoreRecords(){
+    	return $this->hasMany('App\FileRestoreRecord','fileId');
+    }
 }
