@@ -114,6 +114,16 @@
          </li>
          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+               全盘扫描
+               <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li><a href="{{url("file/fileScan")}}">镜像扫描管理</a></li>
+               <li><a href="{{url("file/fileScanRecord")}}">镜像扫描记录</a></li>
+            </ul>
+         </li>
+         <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                用户管理 
                <b class="caret"></b>
             </a>
@@ -130,9 +140,10 @@
             <li>
               <a href="javascript:fileRestoreNew()">
               <span class="glyphicon glyphicon-bell"></span>
-              <?php $file_count=session()->get('fileRestoreRecord_count'); ?>
+              <?php $file_count=DB::table('fileRestoreRecord')->where('message','0')->count(); ?>
+              
               @if($file_count>0)
-                <div class="notice"><?php echo session()->get('fileRestoreRecord_count'); ?></div>
+                <div class="notice"><?php echo $file_count; ?></div>
               @else
               @endif
               </a>

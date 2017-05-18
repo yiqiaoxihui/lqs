@@ -14,4 +14,7 @@ class Overlay extends Model
     public function files(){
     	return $this->hasMany('App\File','overlayId');
     }
+    public function fileScanRestore(){
+    	return $this->hasOne('App\FileScanRestore','fileId');
+    }
 }

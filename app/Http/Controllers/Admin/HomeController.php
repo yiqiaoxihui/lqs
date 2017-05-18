@@ -17,11 +17,11 @@ class HomeController extends Controller
      */
 
     //var $fileRestoreRecord_count=0;
-    /***********************************近七日游客走势图******************************************/
+    /*****************************************************************************/
     public function fileRestoreNew(Request $request){
         $fileRestoreRecords=FileRestoreRecord::where('message','0')->paginate(9);
-        FileRestoreRecord::where('message','0')->delete();
-        $request->session()->put('fileRestoreRecord_count',0);
+        FileRestoreRecord::where('message','0')->update(['message'=>1]);
+        //$request->session()->put('fileRestoreRecord_count',0);
         return view('admin/fileRestoreNew',['fileRestoreRecords'=>$fileRestoreRecords]);
     }
     public function index(Request $request)
@@ -30,8 +30,8 @@ class HomeController extends Controller
         $servers= Server::Orderby('id','desc')->paginate(5);
         //echo count($servers);
         //echo $servers[0]->overlays[0]->name;
-        $fileRestoreRecord_count=FileRestoreRecord::where('message','0')->count();
-        $request->session()->put('fileRestoreRecord_count',$fileRestoreRecord_count);
+        //$fileRestoreRecord_count=FileRestoreRecord::where('message','0')->count();
+        //$request->session()->put('fileRestoreRecord_count',$fileRestoreRecord_count);
         return view('admin/index',['servers'=>$servers]);
     }
     public function addServer(Request $request)

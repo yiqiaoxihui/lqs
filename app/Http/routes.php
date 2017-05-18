@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'
     Route::post('serverStop', 'HomeController@serverStop');
     Route::post('serverStart', 'HomeController@serverStart');
     Route::get('fileRestoreNew', 'HomeController@fileRestoreNew'); 
+
     // Route::get('ykNumber', 'HomeController@ykNumber');
     // Route::post('ykNumberAdd', 'HomeController@ykNumberAdd');
     // Route::get('ykNumberEdit/{id}', 'HomeController@ykNumberEdit');
@@ -102,6 +103,11 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::get('fileRestoreInfo', 'FilesController@fileRestoreInfo');
     Route::post('fileReset', 'FilesController@fileReset');
     Route::get('fileRestoreRecord', 'FilesController@fileRestoreRecord');
+
+    Route::get('fileScan', 'FilesController@fileScan');
+    Route::get('fileScanRecord', 'FilesController@fileScanRecord');
+    Route::post('fileScanStart', 'FilesController@fileScanStart');
+    Route::post('fileScanStop', 'FilesController@fileScanStop');
     //Route::get('fileRestoreNew', 'FilesController@fileRestoreNew');
     
     // Route::post('incomeSumAdd', 'FilesController@incomeSumAdd');

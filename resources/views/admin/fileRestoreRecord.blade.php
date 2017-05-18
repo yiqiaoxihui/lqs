@@ -58,29 +58,5 @@
 <script src="{{asset('jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
-    function incomeAccumulateUpdate(){
-        var id=document.getElementById('id').value;
-        var team=document.getElementById('team').value;
-        var individual=document.getElementById('individual').value;
-        var other=document.getElementById('other').value;
-        console.log(team);
-        $.ajax({
-            type: 'post',
-            url : "{{url("incomeAnalyze/incomeAccumulateUpdate")}}",
-            data : {"id":id,"team":team,"other":other,"individual":individual},
-            dataType:'JSON', 
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            },
-            success : function(data) {
-               if(data.status==1){
-                    layer.msg("更新成功！");
-                    location.reload(true);
-               }
-            },
-            error : function(err) {
-                layer.msg('请按要求输入！');
-            }
-        });
-    }
+
 </script>

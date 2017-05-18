@@ -15,6 +15,7 @@ use App\Server;
 use App\BaseImage;
 use App\FileRestore;
 use App\FileRestoreRecord;
+use App\FileScanRecord;
 class FilesController extends Controller
 {
     /**
@@ -193,6 +194,46 @@ class FilesController extends Controller
     {
         $fileRestoreRecords=fileRestoreRecord::Orderby('created_at','desc')->paginate(9);
         return view("admin/fileRestoreRecord",['fileRestoreRecords'=>$fileRestoreRecords]);
+    }
+
+    public function fileScan()
+    {
+        $overlays=Overlay::Orderby('created_at','desc')->paginate(9);
+        return view("admin/fileScan",['overlays'=>$overlays]);
+    }
+    public function fileScanStart(Request $request)
+    {
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $overlay=Overlay::find($request->get('id'));
+        $overlay->scan=1;
+        if($overlay->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('scan start failed!');
+        }
+    }
+    
+    public function fileScanStop(Request $request)
+    {
+        $info['status']=1;
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $overlay=Overlay::find($request->get('id'));
+        $overlay->scan=0;
+        if($overlay->save()){
+            return json_encode($info);
+        }else{
+            return Redirect::back()->withInput()->withErrors('scan stop failed!');
+        }
+    }
+    public function fileScanRecord()
+    {
+        $fileScanRecords=FileScanRecord::Orderby('created_at','desc')->paginate(9);
+        return view("admin/fileScanRecord",['fileScanRecords'=>$fileScanRecords]);
     }
     /**
      * Show the form for creating a new resource.
