@@ -27,12 +27,11 @@
                     <td >{{$overlay->absPath}}</td>
                     <td >{{$overlay->created_at}}</td>
                     <td >
-                        @if($overlay->status===1)
-                        <span style="color: #5cb85c">正常</span>
-                        @elseif($overlay->status===0)
-                        <span style="color: #5bc0de">停止监测</span>
+                        @if($overlay->scan===1)
+                        <span style="color: #5cb85c">已开启</span>
+                        @elseif($overlay->scan===0)
+                        <span style="color: #5bc0de">已停止</span>
                         @else
-                        <span style="color: #d9534f">镜像故障</span>
                         @endif
                     </td>
                     <td ><a href="{{url("admin")}}">{{$overlay->baseImage->server->name}}</a></td>

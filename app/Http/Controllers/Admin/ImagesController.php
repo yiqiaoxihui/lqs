@@ -11,7 +11,7 @@ use App\Incomecompare;
 use App\BaseImage;
 use App\Server;
 use App\Overlay;
-//use App\Overlay;
+use App\FileScanRecord;
 class ImagesController extends Controller
 {
     /**

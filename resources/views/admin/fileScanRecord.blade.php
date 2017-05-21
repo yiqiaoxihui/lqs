@@ -23,9 +23,9 @@
                         <tr>
                             <td >{{$fileScanRecord->id}}</td>
                             <td >{{$fileScanRecord->overlay->name}}</td>
-                            <td >{{$fileScanRecord->allFiles}}</td>
-                            <td >{{$fileScanRecord->overlayFiles}}</td>
-                            <td >{{$fileScanRecord->scanTime}}</td>
+                            <td >{{$fileScanRecord->allFiles}}个</td>
+                            <td >{{$fileScanRecord->overlayFiles}}个</td>
+                            <td >{{$fileScanRecord->scanTime}}秒</td>
                         </tr>
 
                     @endforeach
