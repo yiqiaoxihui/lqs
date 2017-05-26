@@ -131,6 +131,15 @@
                <li><a href="{{url("user/userInfo")}}">用户管理</a></li>
             </ul>
          </li>
+<!--          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                数据库管理
+               <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li><a href="{{url("database/dataBase")}}">数据库管理</a></li>
+            </ul>
+         </li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
           @if (Auth::guest())

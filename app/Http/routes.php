@@ -110,12 +110,16 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::post('fileScanStop', 'FilesController@fileScanStop');
     //Route::get('fileRestoreNew', 'FilesController@fileRestoreNew');
     
-    // Route::post('incomeSumAdd', 'FilesController@incomeSumAdd');
-    // Route::get('incomeSumEdit/{id}', 'FilesController@incomeSumEdit');
-    // Route::post('incomeSumEditOk', 'FilesController@incomeSumEditOk');     
-    // //
-    // Route::get('fileRestoreRecord', 'FilesController@fileRestoreRecord');
-    // Route::post('incomeAccumulateUpdate', 'FilesController@incomeAccumulateUpdate');
+
+
+
+});
+//
+Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'database'], function() {  
+    //
+    Route::get('dataBase', 'DatabaseController@dataBase');
+    Route::get('dataBaseEdit/{id}', 'DatabaseController@dataBaseEdit');
+    Route::post('dataBaseEditOk', 'DatabaseController@dataBaseEditOk'); 
 
 
 });
@@ -123,9 +127,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
 Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'user'], function() {  
     //
     Route::get('userInfo', 'UsersController@userInfo');
-    Route::post('spotsYkAdd', 'UsersController@spotsYkAdd');
-    Route::get('spotsYkEdit/{id}', 'UsersController@spotsYkEdit');
-    Route::post('spotsYkEditOk', 'UsersController@spotsYkEditOk'); 
+
 
 
 });

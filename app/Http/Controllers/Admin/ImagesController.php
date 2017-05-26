@@ -130,7 +130,7 @@ class ImagesController extends Controller
         $overlay->name = $request->get('name');
         $overlay->absPath = $request->get('absPath');
         $overlay->baseImageId = $request->get('baseImageId');
-
+        
         if ($overlay->save()) {
             return json_encode($info);
         } else {
