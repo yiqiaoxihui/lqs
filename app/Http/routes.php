@@ -109,8 +109,16 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::post('fileScanStart', 'FilesController@fileScanStart');
     Route::post('fileScanStop', 'FilesController@fileScanStop');
     //Route::get('fileRestoreNew', 'FilesController@fileRestoreNew');
-    
-
+});
+Route::group(['middleware' => 'auth','namespace' => 'Admin','prefix' => 'virus'], function() {  
+    //
+    Route::get('virus', 'VirusController@virus');
+    Route::post('virusAdd', 'VirusController@virusAdd');
+    Route::post('virusDelete', 'VirusController@virusDelete');
+    Route::get('virusEdit/{id}', 'VirusController@virusEdit');
+    Route::post('virusEditOk', 'VirusController@virusEditOk'); 
+    Route::get('virusRecord', 'VirusController@virusRecord');
+    Route::post('virusRecordDelete', 'VirusController@virusRecordDelete'); 
 
 
 });

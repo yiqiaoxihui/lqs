@@ -120,6 +120,8 @@
             <ul class="dropdown-menu">
                <li><a href="{{url("file/fileScan")}}">镜像扫描管理</a></li>
                <li><a href="{{url("file/fileScanRecord")}}">镜像扫描记录</a></li>
+               <li><a href="{{url("virus/virus")}}">病毒库管理</a></li>
+               <li><a href="{{url("virus/virusRecord")}}">杀毒记录</a></li>
             </ul>
          </li>
          <li class="dropdown">

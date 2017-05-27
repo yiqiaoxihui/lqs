@@ -14,7 +14,12 @@ class Overlay extends Model
     public function files(){
     	return $this->hasMany('App\File','overlayId');
     }
-    public function fileScanRestore(){
-    	return $this->hasOne('App\FileScanRestore','fileId');
+    //全盘扫描与增量镜像一对多关系
+    public function fileScanRecord(){
+    	return $this->hasOne('App\FileScanRecord','fileId');
+    }
+    //增量镜像与病毒记录一对多关系
+    public function virusKills(){
+        return $this->hasMany('App\VirusKill','overlayId');
     }
 }

@@ -133,6 +133,7 @@ class FilesController extends Controller
         $fileRestores=FileRestore::Orderby('created_at','desc')->paginate(9);
         return view("admin/fileRestore",['fileRestores'=>$fileRestores]);
     }
+    //文件还原：将file.restore=1,添加一条待还原记录
     public function fileRestore(Request $request){
         $info['status']=1;
         $this->validate($request, [
