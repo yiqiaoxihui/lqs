@@ -7,14 +7,13 @@
     <div style="position: relative;margin-left: 30px;">
         <label>服务器</label>
         <select class="form-control" id="server_select_choose" onchange="serverChangeChoose()" style="display: inline;width: 400px;">
-            <option></option>
+            <option value="0">-全部-</option>
         @foreach ($servers as $server)
             <option value="{{$server->id}}">{{$server->id}}-{{$server->name}}</option>
         @endforeach
         </select>
         <label style="margin-left: 30px;"t>基础镜像</label>
         <select class="form-control" id="base_select_choose" onchange="baseChangeChoose()" style="display:inline;width: 400px;">
-        <option></option>
         </select>
     </div>
     <div class="table-outline">
@@ -125,7 +124,10 @@
     }
     function serverChangeChoose(){
         var server_id=$('#server_select_choose option:selected').val();
-        if(server_id!=""){
+        if(server_id=="0"){
+            window.location.href=window.location.href="{{url("image/overlay")}}";
+        }
+        if(server_id!="0"){
             $.ajax({
                 type: 'post',
                 url : "{{url("image/getBaseimageByServer")}}",
@@ -138,7 +140,7 @@
                    if(data!=null){
                         console.log("find success!");
                         //console.log(data);
-                        var insertText="<option></option>";
+                        var insertText="<option>-选择-</option>";
                         for (var k = 0, length = data.length; k < length; k++) {
                             insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
                             //console.log(data[k]['name']);
