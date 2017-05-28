@@ -31,8 +31,15 @@ class FilesController extends Controller
     /********************************收入来源**********************************/
     public function fileInfo()
     {
-        //$incomeSources=Incomesource::Orderby('year','desc')->paginate(7);
         $files=File::Orderby('overlayId','asc')->paginate(9);
+        $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
+        $servers=Server::select("id","name")->get();
+        //$fileRestoreRecord_count=FileRestoreRecord::where('message','0')->count();
+        return view('admin/fileInfo',['files'=>$files,'overlays'=>$overlays,'servers'=>$servers]);
+    }
+    public function fileInfoChoose($overlay_id){
+        $id=$overlay_id;
+        $files=File::where('overlayId',$id)->Orderby('overlayId','asc')->paginate(9);
         $overlays=Overlay::Orderby('id','asc')->select('id','name')->get();
         $servers=Server::select("id","name")->get();
         //$fileRestoreRecord_count=FileRestoreRecord::where('message','0')->count();

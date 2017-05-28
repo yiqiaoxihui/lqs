@@ -121,7 +121,7 @@
                <li><a href="{{url("virus/virusRecord")}}">杀毒记录</a></li>
             </ul>
          </li>
-         <li class="dropdown">
+<!--          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                用户管理 
                <b class="caret"></b>
@@ -129,7 +129,7 @@
             <ul class="dropdown-menu">
                <li><a href="{{url("user/userInfo")}}">用户管理</a></li>
             </ul>
-         </li>
+         </li> -->
 <!--          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 数据库管理

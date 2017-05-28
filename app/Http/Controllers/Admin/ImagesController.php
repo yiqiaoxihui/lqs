@@ -12,6 +12,7 @@ use App\BaseImage;
 use App\Server;
 use App\Overlay;
 use App\FileScanRecord;
+use DB;
 class ImagesController extends Controller
 {
     /**
@@ -104,6 +105,21 @@ class ImagesController extends Controller
         }
     }
 /********************************收入同期比******************************************/
+    public function overlayChoose($base_id)
+    {
+        //echo $base_id;
+        $id=$base_id;
+        //echo $id;
+        // $overlays=DB::table('overlays')->join('baseImages', function ($join) {
+        //     $join->on('baseImages.id', '=', 'overlays.baseImageId')
+        //          ->where('baseImages.id','$id');
+        // })->paginate(9);
+/*        $overlays=DB::table('overlays')->join('baseImages','overlays.baseImageId','=','baseImages.id')->where('baseImages.id',$id)->paginate(9);*/
+        $overlays=\App\Overlay::where('baseImageId',$id)->paginate(9);
+        $baseimages=\App\BaseImage::Orderby('id','desc')->get();
+        $servers=Server::select('name','id')->get();
+        return view('admin/overlayInfo',['overlays'=>$overlays,'baseimages'=>$baseimages,'servers'=>$servers]);
+    }
     public function overlay()
     {
         //$incomecompares = Incomecompare::Orderby('year','desc')->Orderby('month','asc')->paginate(12);

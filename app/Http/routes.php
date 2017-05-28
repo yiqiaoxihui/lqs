@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'image'
     Route::post('baseDelete', 'ImagesController@baseDelete'); 
    
     Route::get('overlay', 'ImagesController@overlay');
+    Route::get('overlay/{base_id}', 'ImagesController@overlayChoose');
     Route::post('overlayAdd', 'ImagesController@overlayAdd');
     Route::get('overlayEdit/{id}', 'ImagesController@overlayEdit');
     Route::post('overlayEditOk', 'ImagesController@overlayEditOk');   
@@ -76,6 +77,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'image'
 Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file'], function() {  
     //
     Route::get('fileInfo', 'FilesController@fileInfo');
+    Route::get('fileInfo/{overlay_id}', 'FilesController@fileInfoChoose');
     Route::post('fileAdd', 'FilesController@fileAdd');
     //detect
     

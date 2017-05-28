@@ -4,8 +4,21 @@
 
 @section('content')
 <h2>增量镜像管理</h2>
+    <div style="position: relative;margin-left: 30px;">
+        <label>服务器</label>
+        <select class="form-control" id="server_select_choose" onchange="serverChangeChoose()" style="display: inline;width: 400px;">
+            <option></option>
+        @foreach ($servers as $server)
+            <option value="{{$server->id}}">{{$server->id}}-{{$server->name}}</option>
+        @endforeach
+        </select>
+        <label style="margin-left: 30px;"t>基础镜像</label>
+        <select class="form-control" id="base_select_choose" onchange="baseChangeChoose()" style="display:inline;width: 400px;">
+        <option></option>
+        </select>
+    </div>
     <div class="table-outline">
-        <table class="table">
+        <table class="table" id="overlay_table">
             <thead>
                 <tr style="height:60px;">
                     <th style="">ID</th>
@@ -38,7 +51,7 @@
                     </td>
                     <td ><a href="{{url("admin")}}">{{$overlay->baseImage->server->name}}</a></td>
                     <td ><a href="{{url("image/base")}}">{{$overlay->baseImage->name}}</a></td>
-                    <td><a href="{{url("file/fileInfo")}}">{{count($overlay->files)}}</td>
+                    <td><a href="{{url("file/fileInfo")}}">{{count($overlay->files)}}</a></td>
                     <td >
                         @if($overlay->status===1)
                         <button class="btn btn-warning"type="button" onclick="overlayStop({{$overlay->id}})">停止
@@ -47,8 +60,6 @@
                         <button class="btn btn-info"type="button" onclick="overlayStart({{$overlay->id}})">启动</button>
                         @else
                         @endif
-
-
                         <button class="btn btn-primary"type="button" onclick="overlayEdit({{$overlay->id}})">修改
                         </button>
                         <button class="btn btn-danger"type="button" onclick="overlayDelete({{$overlay->id}})">删除
@@ -90,6 +101,64 @@
 <script src="{{asset('jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
+    function baseChangeChoose() {
+        var base_id=$('#base_select_choose option:selected').val();
+        if(base_id==""){
+            window.location.href="{{url("image/overlay")}}";
+        }
+        //console.log(base_name);
+        // var tableInfo = "";
+        // var tableObj = document.getElementById("overlay_table");
+        // for (var i = 0; i < tableObj.rows.length; i++) {    //遍历Table的所有Row
+        //     tableInfo = tableObj.rows[i].cells[6].innerText;   //获取Table中单元格的内容
+        //     if (tableInfo==base_name) {
+        //         tableObj.rows[i].style.display="";
+        //     }else{
+        //         tableObj.rows[i].style.display="none";
+        //     }
+        //     //tableInfo += "\n";
+        // }
+        //console.log(url);
+        window.location.href="/lqs/public/image/overlay/"+base_id;
+        //console.log(tableInfo);
+        
+    }
+    function serverChangeChoose(){
+        var server_id=$('#server_select_choose option:selected').val();
+        if(server_id!=""){
+            $.ajax({
+                type: 'post',
+                url : "{{url("image/getBaseimageByServer")}}",
+                data : {"server_id":server_id},
+                dataType:'JSON', 
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                success : function(data) {
+                   if(data!=null){
+                        console.log("find success!");
+                        //console.log(data);
+                        var insertText="<option></option>";
+                        for (var k = 0, length = data.length; k < length; k++) {
+                            insertText+=("<option value='"+data[k]['id']+"'>"+data[k]['name']+"</option>");
+                            //console.log(data[k]['name']);
+                        }
+                        console.log(insertText);
+                        document.getElementById("base_select_choose").innerHTML=insertText;
+                        //layer.msg("添加成功！");
+                        //location.reload(true);
+                   }
+                },
+                error : function(err) {
+                    layer.msg('find baseimages error！');
+                    
+                }
+            });  
+        }else{
+            console.log("not select anything!");
+            $("#base_select").html("");
+        } 
+    }
     function serverChange(){
         var server_id=$('#server_select option:selected').val();
         if(server_id!=""){
@@ -128,7 +197,7 @@
     }
     
     
-    //console.log({{$baseimages[0]->id}});
+
     function addOverlay(){
         var name=document.getElementById('name').value;
         var absPath=document.getElementById('absPath').value;
