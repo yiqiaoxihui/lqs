@@ -22,7 +22,6 @@ class UsersController extends Controller
         $users=User::orderBy('id','asc')->paginate(9);
         return view('admin/userInfo',['users'=>$users]);
     }
-
     public function spotsYkAdd(Request $request)
     {
         $info['status']=1;

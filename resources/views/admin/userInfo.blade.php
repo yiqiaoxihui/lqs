@@ -53,8 +53,8 @@
                 @endforeach
                 <tr class="info">
                     <td ><div style="margin-top:5px;">添加:</div></td>
-                    <td></td>
-                    <td></td>
+                    <td ><input type="text" class="form-control" id="account" placeholder="请输入名称" ></td>
+                    <td ><input type="text" class="form-control" id="password" placeholder="请输入密码" ></td>
                     <td></td>
                     <td></td>
                     <td >

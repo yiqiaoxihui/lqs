@@ -85,9 +85,6 @@
             </a>
             <ul class="dropdown-menu">
               <li><a href="{{url("admin")}}">节点管理</a></li>
-              <!-- <li><a href="{{url("admin/ykNumber")}}">游客数量走势图</a></li>
-              <li><a href="{{url("admin/ykType")}}">游客类型分析</a></li>
-              <li><a href="{{url("admin/ykSource")}}">游客客源地分析</a></li> -->
             </ul>
          </li>
         <li class="dropdown">

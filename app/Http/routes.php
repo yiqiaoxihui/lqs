@@ -21,10 +21,13 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
 Route::get('/', 'IndexController@home');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('home', 'IndexController@index');//
+    Route::get('home', 'IndexController@home');//
    
 });
 // Route::get('home', function () {
@@ -46,20 +49,6 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'admin'
     Route::post('serverStart', 'HomeController@serverStart');
     Route::get('fileRestoreNew', 'HomeController@fileRestoreNew'); 
 
-    // Route::get('ykNumber', 'HomeController@ykNumber');
-    // Route::post('ykNumberAdd', 'HomeController@ykNumberAdd');
-    // Route::get('ykNumberEdit/{id}', 'HomeController@ykNumberEdit');
-    // Route::post('ykNumberEditOk', 'HomeController@ykNumberEditOk');
-    //
-    // Route::get('ykType', 'HomeController@ykType');
-    // Route::post('yktypeAdd', 'HomeController@yktypeAdd');
-    // Route::get('ykTypeEdit/{id}', 'HomeController@ykTypeEdit');
-    // Route::post('ykTypeEditOk', 'HomeController@ykTypeEditOk'); 
-    // 
-    // Route::get('ykSource', 'HomeController@ykSource');
-    // Route::post('ykSourceAdd', 'HomeController@ykSourceAdd');
-    // Route::get('ykSourceEdit/{id}', 'HomeController@ykSourceEdit');
-    // Route::post('ykSourceEditOk', 'HomeController@ykSourceEditOk');     
 
 });
 //同期比

@@ -20,7 +20,9 @@ class AuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
-    protected $redirectPath = 'yktrend';
+    //login重定向路径
+    protected $redirectPath = 'admin';
+    
     protected $redirectTo = '/';
     //protected $loginPath = '/';
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
