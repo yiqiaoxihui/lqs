@@ -22,4 +22,7 @@ class Overlay extends Model
     public function virusKills(){
         return $this->hasMany('App\VirusKill','overlayId');
     }
+    public function fileRestoreRecords(){
+        return $this->hasManyThrough('App\FileRestoreRecord','App\File','overlayId','fileId');
+    }
 }

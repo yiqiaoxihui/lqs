@@ -94,7 +94,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Admin', 'prefix' => 'file']
     Route::get('fileRestoreInfo', 'FilesController@fileRestoreInfo');
     Route::post('fileReset', 'FilesController@fileReset');
     Route::get('fileRestoreRecord', 'FilesController@fileRestoreRecord');
-
+    Route::get('fileRestoreRecord/{overlay_id}', 'FilesController@fileRestoreRecordChoose');
     Route::get('fileScan', 'FilesController@fileScan');
     Route::get('fileScanRecord', 'FilesController@fileScanRecord');
     Route::post('fileScanStart', 'FilesController@fileScanStart');

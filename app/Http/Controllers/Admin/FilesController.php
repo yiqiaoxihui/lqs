@@ -200,10 +200,19 @@ class FilesController extends Controller
     }
     public function fileRestoreRecord()
     {
+        $servers=Server::select("id","name")->get();
         $fileRestoreRecords=fileRestoreRecord::Orderby('created_at','desc')->paginate(9);
-        return view("admin/fileRestoreRecord",['fileRestoreRecords'=>$fileRestoreRecords]);
+        return view("admin/fileRestoreRecord",['fileRestoreRecords'=>$fileRestoreRecords,'servers'=>$servers]);
     }
-
+    public function fileRestoreRecordChoose($overlay_id){
+        $id=$overlay_id;
+        $servers=Server::select("id","name")->get();
+        // $fileRestoreRecords=DB::table('fileRestoreRecord')->join('files','files.id','=','fileRestoreRecord.fileId')->join('overlays','overlays.id','=','files.overlayId')->where('overlays.id',$id)->paginate(9);
+        $overlay=Overlay::find($id);
+        $fileRestoreRecords=$overlay->fileRestoreRecords()->paginate(9);
+        //echo $fileRestoreRecords;
+        return view("admin/fileRestoreRecord",['fileRestoreRecords'=>$fileRestoreRecords,'servers'=>$servers]);
+    }
     public function fileScan()
     {
         $overlays=Overlay::Orderby('created_at','desc')->paginate(9);
