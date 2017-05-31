@@ -23,15 +23,15 @@
                         <tr>
                             <td >{{$fileRestoreRecord->id}}</td>
                             <td >
-                                @if($fileRestore->file->overlay!=NULL)
-                                {{$fileRestore->file->overlay->name}}
+                                @if($fileRestoreRecord->file->overlay!=NULL)
+                                {{$fileRestoreRecord->file->overlay->name}}
                                 @else
                                 已删除
                                 @endif
                             </td>
                             <td >
-                                @if($fileRestore->file!=NULL)
-                                {{$fileRestore->file->absPath}}
+                                @if($fileRestoreRecord->file!=NULL)
+                                {{$fileRestoreRecord->file->absPath}}
                                 @else
                                 已删除
                                 @endif
