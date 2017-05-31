@@ -42,7 +42,14 @@
             <tbody>
                  @foreach ($files as $file)
                 <tr @if($file->status===-1||$file->isModified===1)style="background: #e29896;color:#ffffff"@endif>
-                    <td >{{$file->overlay->name}}</td>
+                    <td >
+                        @if($file->overlay!=NULL)
+                        {{$file->overlay->name}}
+                        @else
+                        已删除
+                        @endif
+                    
+                    </td>
                     <td >{{$file->absPath}}</td>
                     <td >
                     @if(intval(($file->mode)/4096)===8)

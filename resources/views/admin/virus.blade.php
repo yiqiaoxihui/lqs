@@ -3,7 +3,7 @@
 @section('title', '后台管理')
 
 @section('content')
-<h2>数据库管理</h2>
+<h2>病毒库管理</h2>
     <div class="table-outline">
         <table class="table">
             <thead>

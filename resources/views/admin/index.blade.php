@@ -9,7 +9,7 @@
             <thead>
                 <tr style="height:60px;">
                     <th style="">ID</th>
-                    <th>节点名称</th>
+                    <th>服务器名称</th>
                     <th>服务器编号</th>
                     <th>IP</th>
                     <th>URL</th>

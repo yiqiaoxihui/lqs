@@ -22,8 +22,22 @@
                      @foreach ($fileRestoreRecords as $fileRestoreRecord)
                         <tr>
                             <td >{{$fileRestoreRecord->id}}</td>
-                            <td >{{$fileRestoreRecord->file->overlay->name}}</td>
-                            <td >{{$fileRestoreRecord->file->absPath}}</td>
+                            <td >
+                                @if($fileRestore->file->overlay!=NULL)
+                                {{$fileRestore->file->overlay->name}}
+                                @else
+                                已删除
+                                @endif
+                            </td>
+                            <td >
+                                @if($fileRestore->file!=NULL)
+                                {{$fileRestore->file->absPath}}
+                                @else
+                                已删除
+                                @endif
+                            </td>
+<!--                             <td >{{$fileRestoreRecord->file->overlay->name}}</td>
+                            <td >{{$fileRestoreRecord->file->absPath}}</td> -->
                             <td >
                                 @if($fileRestoreRecord->restoreReason===1)
                                     <p style="color: #d9534f">文件篡改</p>

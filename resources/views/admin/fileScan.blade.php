@@ -34,8 +34,24 @@
                         @else
                         @endif
                     </td>
-                    <td ><a href="{{url("admin")}}">{{$overlay->baseImage->server->name}}</a></td>
-                    <td ><a href="{{url("image/base")}}">{{$overlay->baseImage->name}}</a></td>
+                    <td >
+                        <a href="{{url("admin")}}">
+                            @if($overlay->baseImage->server!=NULL)
+                            {{$overlay->baseImage->server->name}}
+                            @else
+                            已删除
+                            @endif
+                        </a>
+                    </td>
+                    <td >
+                        <a href="{{url("image/base")}}">
+                            @if($overlay->baseImage!=NULL)
+                            {{$overlay->baseImage->name}}
+                            @else
+                            已删除
+                            @endif
+                        </a>
+                    </td>
                     <td >
                         @if($overlay->scan===1)
                         <button class="btn btn-warning"type="button" onclick="overlayScanStop({{$overlay->id}})">停止扫描

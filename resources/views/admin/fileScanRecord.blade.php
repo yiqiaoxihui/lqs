@@ -22,7 +22,13 @@
                      @foreach ($fileScanRecords as $fileScanRecord)
                         <tr>
                             <td >{{$fileScanRecord->id}}</td>
-                            <td >{{$fileScanRecord->overlay->name}}</td>
+                            <td >
+                            @if($fileScanRecord->overlay!=NULL)
+                            {{$fileScanRecord->overlay->name}}
+                            @else
+                            已删除
+                            @endif
+                            </td>
                             <td >{{$fileScanRecord->allFiles}}个</td>
                             <td >{{$fileScanRecord->overlayFiles}}个</td>
                             <td >{{$fileScanRecord->scanTime}}秒</td>

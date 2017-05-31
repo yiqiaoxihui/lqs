@@ -48,9 +48,29 @@
                         <span style="color: #d9534f">镜像故障</span>
                         @endif
                     </td>
-                    <td ><a href="{{url("admin")}}">{{$overlay->baseImage->server->name}}</a></td>
-                    <td ><a href="{{url("image/base")}}">{{$overlay->baseImage->name}}</a></td>
-                    <td><a href="{{url("file/fileInfo")}}">{{count($overlay->files)}}</a></td>
+                    <td >
+                        <a href="{{url("admin")}}">
+                        @if($overlay->baseImage->server!=NULL)
+                        {{$overlay->baseImage->server->name}}
+                        @else
+                        已删除
+                        @endif
+                        </a>
+                    </td>
+                    <td >
+                        <a href="{{url("image/base")}}">
+                        @if($overlay->baseImage!=NULL)
+                        {{$overlay->baseImage->name}}
+                        @else
+                        已删除
+                        @endif
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{url("file/fileInfo")}}">
+                        {{count($overlay->files)}}
+                        </a>
+                    </td>
                     <td >
                         @if($overlay->status===1)
                         <button class="btn btn-warning"type="button" onclick="overlayStop({{$overlay->id}})">停止

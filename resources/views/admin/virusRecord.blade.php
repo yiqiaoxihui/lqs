@@ -23,10 +23,28 @@
                      @foreach ($virusRecords as $virusRecord)
                         <tr>
                             <td >{{$virusRecord->id}}</td>
-                            <td >{{$virusRecord->overlay->name}}</td>
+                            <td >
+                            @if($virusRecord->overlay!=NULL)
+                            {{$virusRecord->overlay->name}}
+                            @else
+                            已删除
+                            @endif
+                            </td>
                             <td >{{$virusRecord->filename}}</td>
-                            <td >{{$virusRecord->virus->code}}</td>
-                            <td>{{$virusRecord->virus->name}}</td>
+                            <td >
+                            @if($virusRecord->virus!=NULL)
+                            {{$virusRecord->virus->code}}
+                            @else
+                            已删除
+                            @endif
+                            </td>
+                            <td>
+                            @if($virusRecord->virus!=NULL)
+                            {{$virusRecord->virus->name}}
+                            @else
+                            已删除
+                            @endif
+                            </td>
                             <td >
                                 <button class="btn btn-warning"type="button" onclick="virusRecordDelete({{$virusRecord->id}})">删除</button>
                             </td>

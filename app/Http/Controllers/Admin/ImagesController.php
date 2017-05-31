@@ -80,7 +80,7 @@ class ImagesController extends Controller
     public function baseDelete(Request $request){
         $info['status']=1;
         BaseImage::destroy($request->get('id'));
-
+        
         //echo $status;
         return json_encode($info);
     }
